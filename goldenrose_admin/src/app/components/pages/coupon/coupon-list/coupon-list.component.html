@@ -1,0 +1,161 @@
+<main>
+    <div class="d-flex flex-wrap flex-sm-row flex-column align-items-sm-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1 mb-3">{{"Coupon" | translate}}</h4>
+        <div class="d-flex align-items-sm-center flex-sm-row flex-column-reverse">
+            <div class="mr-sm-3 mt-sm-0 mt-3">
+                <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input-group">
+                    <input type="text" nz-input placeholder="{{'SearchCoupon' | translate}}" [(ngModel)]="searchValue"
+                        (ngModelChange)="Search()" [ngModelOptions]="{standalone: true}" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                </ng-template>
+            </div>
+            <div>
+                <a routerLink="/coupon/add" nz-button nzSize="small" nzType="primary">
+                    <i nz-icon nzType="plus"></i>{{"AddCoupon" | translate}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <nz-card [nzBordered]="true" class="mb-4 card-p-0">
+        <nz-table #recentOrderTable [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th>{{"SlNo" | translate}}</th>
+                    <th>{{"CouponName" | translate}}</th>
+                    <th>{{"Percentage" | translate}}</th>
+                    <th>{{"ExDate" | translate}}</th>
+                    <th>{{"Desc" | translate}}</th>
+                    <th>{{"Status" | translate}}</th>
+                    <th class="text-center">{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of recentOrderTable.data;let i = index">
+                    <td>{{10*recentOrderTable.nzPageIndex+( i + 1) - 10}}</td>
+                    <td>{{ data.title }}</td>
+                    <td>{{ data.percentage }} %</td>
+                    <td>{{ data.validitydays }}</td>
+                    <td>{{data.description}}</td>
+                    <td>
+                        <span class="success" *ngIf="data.status == true">
+                            <i nz-icon nzType="check-circle" nzTheme="fill" class="mr-2"></i>
+                            <span>{{"Enabled" | translate}}</span>
+                        </span>
+                        <span class="fail" *ngIf="data.status == false">
+                            <i nz-icon nzType="warning" nzTheme="fill" class="mr-2"></i>
+                            <span>{{"Disabled" | translate}}</span>
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <button nz-button nzType="default" nzShape="circle" title="Send!" (click)="sendCoupon(data)">
+                            <i nz-icon nzType="send" nzTheme="outline"></i>
+                        </button>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default" nzShape="circle" title="Edit!" (click)="editCoupon(data)">
+                            <i nz-icon nzType="edit"></i>
+                        </button>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default" nzShape="circle" *ngIf="data.status == false"
+                            data-toggle="tooltip" title="Enable!" (click)="EnableCoupon(data)">
+                            <i nz-icon nzType="file-protect" [nzTwotoneColor]="'#ff1000'"></i>
+                        </button>
+                        <button nz-button nzType="default" nzShape="circle" *ngIf="data.status == true"
+                            data-toggle="tooltip" title="Disable!" (click)="EnableCoupon(data)">
+                            <i nz-icon nzType="disconnect"></i>
+                        </button>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default" nzShape="circle" (click)="deleteCoupon(data._id)">
+                            <i nz-icon nzType="delete"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</main>
+<!-- Modal -- Edit Coupon -- Start -->
+<nz-modal [(nzVisible)]="iseditCoupon" nzTitle="Edit Coupon" (nzOnCancel)="iseditCoupon = false"
+    (nzOnOk)="iseditCoupon = false" [nzFooter]="null">
+    <form nz-form [formGroup]="editCouponForm" (ngSubmit)="editCouponSubmit()">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="{{'EnterCouponName' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"CouponName" | translate}}</nz-form-label>
+                <input nzSize="large" type="text" nz-input formControlName="couponName" [(ngModel)]="couponTitle" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="{{'EnterCode' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"CouponCode" | translate}}</nz-form-label>
+                <input nzSize="large" type="text" nz-input formControlName="couponCode" [(ngModel)]="couponCode" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="{{'EnterPer' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"PerOffer" | translate}}</nz-form-label>
+                <input nzSize="large" type="text" nz-input formControlName="percentage" (ngModelChange)="max100()"
+                    [(ngModel)]="couponPercentage" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="d-block">
+            <nz-form-control nzErrorTip="{{'EnterDays' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"ValidDays" | translate}}</nz-form-label>
+                <input nzSize="large" type="text" nz-input formControlName="validitydays" (ngModelChange)="maxdays()"
+                    [(ngModel)]="couponValidity" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="{{'EnterDesc' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"Desc" | translate}}</nz-form-label>
+                <textarea rows="4" nz-input formControlName="description" [(ngModel)]="couponDescription"></textarea>
+            </nz-form-control>
+        </nz-form-item>
+        <div class="text-right mt-4 pt-2">
+            <button nz-button nzType="default" (click)="iseditCoupon = false" class="mr-2">{{"Cancel" | translate}}</button>
+            <button nz-button nzType="primary" [disabled]="editCouponForm.invalid"
+                [nzLoading]="editLoading">{{"Update" | translate}}</button>
+        </div>
+    </form>
+</nz-modal>
+<!-- Modal -- Edit Coupon -- End -->
+<!-- Modal -- Send Notification -- Start -->
+<nz-modal [(nzVisible)]="isSendCoupon" nzTitle="Send Coupon" (nzOnCancel)="isSendCoupon = false"
+    (nzOnOk)="isSendCoupon = false" [nzFooter]="null">
+    <form nz-form [formGroup]="sendCouponForm" (ngSubmit)="sendCouponSubmit()">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="{{'EnterUserType' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"UserType" | translate}}</nz-form-label>
+                <nz-select nzSize="large" formControlName="selectUser" nzShowSearch nzAllowClear
+                    [(ngModel)]="selectedUser">
+                    <nz-option nzLabel="{{'All' | translate}}" nzValue="ALL"></nz-option>
+                    <nz-option nzLabel="{{'Customuser' | translate}}" nzValue="CUSTOM-USER"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="selectedUser == 'CUSTOM-USER'">
+            <nz-form-control nzErrorTip="{{'SelectCust' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"Customuser" | translate}}</nz-form-label>
+                <nz-select [(ngModel)]="tagValue" nzSize="large" formControlName="customUser" nzMode="tags">
+                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.label">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="{{'EnterNotiType' | translate}}">
+                <nz-form-label nzFor="categoryName">{{"NotiType" | translate}}</nz-form-label>
+                <nz-select nzSize="large" formControlName="notificationType" nzShowSearch nzAllowClear
+                    [(ngModel)]="selectedMail">
+                    <nz-option nzLabel="Push" nzValue="PUSH"></nz-option>
+                    <nz-option nzLabel="{{'Mail' | translate}}" nzValue="MAIL"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <div class="text-right mt-4 pt-2">
+            <button nz-button nzType="default" (click)="isSendCoupon = false" class="mr-2">{{"Cancel" |translate}}</button>
+            <button nz-button nzType="primary">{{"Send" | translate}}</button>
+        </div>
+    </form>
+</nz-modal>
+<!-- Modal -- Send Notification -- End -->

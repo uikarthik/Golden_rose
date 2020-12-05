@@ -1,0 +1,66 @@
+<main>
+    <div class="d-flex flex-wrap flex-sm-row flex-column align-items-sm-center justify-content-between mb-3">
+        <div class="d-flex align-items-center mb-sm-0 mb-2">
+            <h4 class="mb-0 mr-3">{{"EnvSetting"| translate}}</h4>
+            <nz-switch [(ngModel)]="modeValue" (ngModelChange)="GetModeValue()" nzCheckedChildren="production"
+                nzUnCheckedChildren="development"></nz-switch>
+        </div>
+        <div>
+            <button nz-button nzSize="small" nzType="primary" (click)="RestartServer()">
+                {{"ReServer" | translate}}
+            </button>
+        </div>
+    </div>
+    <h6 class="mb-3">{{"Note" | translate}}: {{"reserverNote" | translate}}</h6>
+    <div class="table-block">
+        <nz-table #basicTable [nzData]="listOfData" nzShowSizeChanger nzPageSize="10"
+            [nzPageSizeOptions]="[10,20,30,40,50]">
+            <thead>
+                <tr>
+                    <th>{{"SNO" | translate}}</th>
+                    <th>{{"Key" | translate}}</th>
+                    <th>{{"Word" | translate}}</th>
+                    <th>{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data ; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td> {{data.key}}</td>
+                    <td>
+                        <div class="word-description">
+                            {{data.word}}
+                        </div>
+                    </td>
+                    <td> <button nz-button nzType="default" nzShape="circle" (click)="showModal(); EditData(data)">
+                            <i nz-icon nzType="edit"></i>
+                        </button></td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Key" (nzOnCancel)="handleCancel()" (nzOnOk)="UpdateENV()"
+        [nzOkLoading]="isOkLoading">
+        <nz-card [nzBordered]="false">
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <form nz-form [formGroup]="validateForm" (ngSubmit)="UpdateENV()">
+                        <nz-form-item>
+                            <nz-form-label nzFor="key">{{"Key" | translate}}</nz-form-label>
+                            <nz-form-control nzErrorTip="{{'EnterKey' | translate}}">
+                                <input nz-input formControlName="key" type="text" [(ngModel)]="FAQKey"
+                                    [disabled]="isEdit" />
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label nzFor="word">{{"Word" | translate}}</nz-form-label>
+                            <nz-form-control nzErrorTip="{{'EnterWord' | translate}}">
+                                <input nz-input formControlName="word" type="text" [(ngModel)]="FAQWord" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </form>
+                </div>
+            </div>
+        </nz-card>
+    </nz-modal>
+</main>

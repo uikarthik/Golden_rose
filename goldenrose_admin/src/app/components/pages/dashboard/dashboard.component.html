@@ -1,0 +1,259 @@
+<main>
+    <h4 class="mb-3">{{"Dashboard" | translate}}</h4>
+    <div nz-row [nzGutter]="24" class="card-block">
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="6">
+            <nz-card [nzBordered]="false" class="mb-4">
+                <div nz-row>
+                    <div nz-col nzSpan="20">
+                        <nz-statistic [nzValue]="usercount | number" nzTitle="{{'TotalUser' | translate}}"></nz-statistic>
+                    </div>
+                    <div nz-col nzSpan="4">
+                        <div class="card-icon user-bg">
+                            <i nz-icon nzType="user" nzTheme="outline"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card-status">
+                    <span class="text-success">
+                        <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+                        &nbsp;8.5%&nbsp;
+                    </span>
+                    <span class="text-black-50">since last month</span>
+                </div> -->
+            </nz-card>
+        </div>
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="6">
+            <nz-card [nzBordered]="false" class="mb-4">
+                <div nz-row>
+                    <div nz-col nzSpan="20">
+                        <nz-statistic [nzValue]="ordersCount | number" nzTitle="{{'TotalOrder' | translate}}"></nz-statistic>
+                    </div>
+                    <div nz-col nzSpan="4">
+                        <div class="card-icon merchant-bg">
+                            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card-status">
+                    <span class="text-success">
+                        <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+                        &nbsp;8.5%&nbsp;
+                    </span>
+                    <span class="text-black-50">since last month</span>
+                </div> -->
+            </nz-card>
+        </div>
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="6">
+            <nz-card [nzBordered]="false" class="mb-4">
+                <div nz-row>
+                    <div nz-col nzSpan="20">
+                        <nz-statistic [nzValue]="productcount | number" nzTitle="{{'TotalPro' | translate}}"></nz-statistic>
+                    </div>
+                    <div nz-col nzSpan="4">
+                        <div class="card-icon coin-bg">
+                            <i nz-icon nzType="shopping" nzTheme="outline"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card-status">
+                    <span class="text-danger">
+                        <i nz-icon nzType="arrow-down" nzTheme="outline"></i>
+                        &nbsp;8.5%&nbsp;
+                    </span>
+                    <span class="text-black-50">since last month</span>
+                </div> -->
+            </nz-card>
+        </div>
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="6">
+            <nz-card [nzBordered]="false" class="mb-4">
+                <div nz-row>
+                    <div nz-col nzSpan="20">
+                        <nz-statistic [nzValue]="earnings | number" [nzPrefix]="prefixDollar"
+                            nzTitle="{{'TotalSale' | translate}}">
+                        </nz-statistic>
+                        <ng-template #prefixDollar>€</ng-template>
+                    </div>
+                    <div nz-col nzSpan="4">
+                        <div class="card-icon kyc-bg">
+                            <i nz-icon nzType="tag" nzTheme="outline"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card-status">
+                    <span class="text-success">
+                        <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+                        &nbsp;8.5%&nbsp;
+                    </span>
+                    <span class="text-black-50">since last month</span>
+                </div> -->
+            </nz-card>
+        </div>
+    </div>
+    <div nz-row [nzGutter]="24" class="card-block">
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="18">
+            <nz-card [nzBordered]="true" nzTitle="{{'RevStat' | translate}}" class="mb-4 card-p-0">
+                <div nz-row [nzGutter]="24">
+                    <!-- <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="8">
+                        <div class="text-center revenue-card">
+                            <nz-statistic [nzValue]="earnings | number" [nzPrefix]="prefixDollar"
+                                [nzTitle]="'Total Earnings'"></nz-statistic>
+                            <ng-template #prefixTpl>€</ng-template>
+                        </div>
+                    </div> -->
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="8">
+                        <div class="text-center revenue-card">
+                            <nz-statistic [nzValue]="currentMonth_Earnings | number" [nzPrefix]="prefixCurrent"
+                                nzTitle="{{'CurrentMon' | translate}}">
+                            </nz-statistic>
+                            <ng-template #prefixCurrent>
+                                <span class="sales-indicator" style="background:#008ffb;"></span>
+                                <span>€</span>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="8">
+                        <div class="text-center revenue-card">
+                            <nz-statistic [nzValue]="previousMonth_Earnings | number" [nzPrefix]="prefixPrevious"
+                                nzTitle="{{'PrevMonth' | translate}}">
+                            </nz-statistic>
+                            <ng-template #prefixPrevious>
+                                <span class="sales-indicator" style="background:#00e396;"></span>
+                                <span>€</span>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div id="revenue-chart">
+                    <apx-chart [series]="revenuechartOptions.series" [chart]="revenuechartOptions.chart"
+                        [xaxis]="revenuechartOptions.xaxis" [yaxis]="revenuechartOptions.yaxis"
+                        [stroke]="revenuechartOptions.stroke" [tooltip]="revenuechartOptions.tooltip"
+                        [dataLabels]="revenuechartOptions.dataLabels" [legend]="revenuechartOptions.legend">
+                    </apx-chart>
+                </div>
+            </nz-card>
+        </div>
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="6">
+            <nz-card [nzBordered]="true" nzTitle="{{'SaleStat' | translate}}" class="mb-4">
+                <div id="chart">
+                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                        [labels]="chartOptions.labels" [legend]="chartOptions.legend"
+                        [responsive]="chartOptions.responsive"></apx-chart>
+                </div>
+                <div class="statistics-list">
+                    <p>
+                        <span class="static-title">
+                            <span class="static-shape" style="background:#008ffb;"></span>
+                            <span>{{"Torder" | translate}}</span>
+                        </span>
+                        <span>{{ordered_count}}</span>
+                    </p>
+                    <p>
+                        <span class="static-title">
+                            <span class="static-shape" style="background:#00e396;"></span>
+                            <span>{{"Packed" | translate}}</span>
+                        </span>
+                        <span>{{packed_count}}</span>
+                    </p>
+                    <p>
+                        <span class="static-title">
+                            <span class="static-shape" style="background:#feb019;"></span>
+                            <span>{{"Shipped" | translate}}</span>
+                        </span>
+                        <span>{{shipped_count}}</span>
+                    </p>
+                    <p>
+                        <span class="static-title">
+                            <span class="static-shape" style="background:#ff4560;"></span>
+                            <span>{{"Delivered" | translate}}</span>
+                        </span>
+                        <span>{{delivered_count}}</span>
+                    </p>
+                    <p>
+                        <span class="static-title">
+                            <span class="static-shape" style="background:#775dd0;"></span>
+                            <span>{{"Cart" | translate}}</span>
+                        </span>
+                        <span>{{cart_count}}</span>
+                    </p>
+                </div>
+            </nz-card>
+        </div>
+    </div>
+    <div nz-row [nzGutter]="24" class="card-block">
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" nzXXl="24">
+            <ng-template #extraTemplate>
+                <a routerLink="/orders">{{"ViewAll" | translate}}</a>
+            </ng-template>
+            <nz-card [nzBordered]="true" nzTitle="Recent Orders" [nzExtra]="extraTemplate" class="mb-4 card-p-0">
+                <nz-table #recentOrderTable [nzData]="RecentOrder">
+                    <thead>
+                        <tr>
+                            <th>{{"OrderId" | translate}}</th>
+                            <th>{{"Date" | translate}}</th>
+                            <th>{{"Price" | translate}}</th>
+                            <th>{{"Status" | translate}}</th>
+                            <th>{{"User" | translate}}</th>
+                            <th class="text-center">{{"Action" | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of recentOrderTable.data">
+                            <td class="text-info">{{ data.tx_id }}</td>
+                            <td>{{ data.createdAt | date }}</td>
+                            <td>€{{ data.amount }}</td>
+                            <td>
+                                <nz-tag [nzColor]="'blue'" *ngIf="data.order_status == 'SHIPPED'">
+                                    <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                                    <span>{{"Shipped" | translate}}</span>
+                                </nz-tag>
+                                <nz-tag [nzColor]="'violet'" *ngIf="data.order_status == 'PACKED'">
+                                    <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                                    <span>{{"Packed" | translate}}</span>
+                                </nz-tag>
+                                <nz-tag [nzColor]="'orange'" *ngIf="data.order_status == 'ORDERED'">
+                                    <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                                    <span>{{"OrderPlaced" | translate}}</span>
+                                </nz-tag>
+                                <nz-tag [nzColor]="'green'" *ngIf="data.order_status == 'DELIVERED'">
+                                    <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                                    <span>{{"Delivered" | translate}}</span>
+                                </nz-tag>
+                                <nz-tag [nzColor]="'red'" *ngIf="data.order_status == 'RETURNED'">
+                                    <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                                    <span>{{"Returned" | translate}}</span>
+                                </nz-tag>
+                                <nz-tag [nzColor]="'brown'" *ngIf="data.order_status == 'CANCELLED'">
+                                    <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                                    <span>{{"Cancelled" | translate}}</span>
+                                </nz-tag>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <nz-avatar class="mr-2 text-uppercase"
+                                        nzText="{{data.address.user_name| slice:0:1}}">
+                                    </nz-avatar>
+                                    <span>{{ data.address.user_name }}</span>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <button nz-button nzType="default" nzShape="circle" nz-dropdown nzTrigger="click"
+                                    [nzDropdownMenu]="recentOrder" [nzPlacement]="'bottomRight'">
+                                    <i nz-icon nzType="ellipsis" nzTheme="outline"></i>
+                                </button>
+                                <nz-dropdown-menu #recentOrder="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item routerLink="/details/{{data._id}}">
+                                            <i nz-icon nzType="expand" nzTheme="outline"></i>
+                                            <span>{{"View" | translate}}</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-card>
+        </div>
+    </div>
+</main>

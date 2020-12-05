@@ -1,0 +1,455 @@
+<main>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">{{"SiteSetting" | translate}}</h4>
+    </div>
+    <nz-card [nzBordered]="false">
+        <nz-tabset [nzAnimated]="false" [nzSelectedIndex]="0">
+            <nz-tab nzTitle="General">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6">
+                        <form nz-form [formGroup]="generalForm" (ngSubmit)="generalSubmit()">
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterEmail' | translate}}">
+                                    <nz-form-label nzFor="emailID">{{"Umail" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="email" [(ngModel)]="email" nz-input
+                                        formControlName="emailID" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterSiteAdd' | translate}}">
+                                    <nz-form-label nzFor="siteAddress">{{"SiteAdd" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="siteaddress" nz-input
+                                        formControlName="siteAddress" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Enter Street">
+                                    <nz-form-label nzFor="street">Street</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="street" nz-input
+                                        formControlName="street" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Enter city">
+                                    <nz-form-label nzFor="city">City</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="city" nz-input
+                                        formControlName="city" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Enter State">
+                                    <nz-form-label nzFor="state">State</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="state" nz-input
+                                        formControlName="state" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Enter Country">
+                                    <nz-form-label nzFor="country">Country</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="country" nz-input
+                                        formControlName="country" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Enter Pin Code">
+                                    <nz-form-label nzFor="pin">Pin Code</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="pin" nz-input
+                                        formControlName="pin" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Enter Mobile Number">
+                                    <nz-form-label nzFor="mobile">Mobile Number</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="mobile" nz-input
+                                        formControlName="mobile" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input Delivery fees!">
+                                    <nz-form-label nzFor="deliveryfee">Delivery Fees</nz-form-label>
+                                    <input nzSize="large" type="number" min='1' [(ngModel)]="delivery_fee" (ngModelChange)="min0()" nz-input formControlName="deliveryfee" />
+                                </nz-form-control> 
+                            </nz-form-item> -->
+                            <div nz-row>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="12">
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-form-label nzFor="categoryImage">{{"LogoLight" | translate}}</nz-form-label>
+                                            <div class="clearfix">
+                                                <div *ngIf="logoURL != null">
+                                                    <img [src]="logoURL" class="logo-favicon" />
+                                                </div>
+                                                <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0"
+                                                    type="file" class="post-file--img"
+                                                    (change)="onFileChange($event)" />
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="12">
+                                    <!-- <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-form-label nzFor="categoryImage">Logo Dark Theme</nz-form-label>
+                                            <div class="clearfix">
+                                                <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                                    nzListType="picture-card" [(nzFileList)]="fileListDark"
+                                                    [nzShowButton]="fileListDark.length < 1"
+                                                    [nzPreview]="handlePreview">
+                                                    <i nz-icon nzType="plus"></i>
+                                                    <div class="ant-upload-text">Upload</div>
+                                                </nz-upload>
+                                                <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent"
+                                                    [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+                                                    <ng-template #modalContent>
+                                                        <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+                                                    </ng-template>
+                                                </nz-modal>
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item> -->
+                                </div>
+                            </div>
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <nz-form-label nzFor="categoryImage">{{"FavIcon" | translate}}</nz-form-label>
+                                    <div class="clearfix">
+                                        <div *ngIf="faviURL != null">
+                                            <img [src]="faviURL" class="logo-favicon" />
+                                        </div>
+                                        <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0" type="file"
+                                            class="post-file--img" (change)="onFilefaviChange($event)" />
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <nz-form-label nzFor="categoryImage">HeaderImage</nz-form-label>
+                                    <div class="clearfix">
+                                        <div *ngIf="headURL != null">
+                                            <img [src]="headURL" class="logo-favicon" />
+                                        </div>
+                                        <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0" type="file"
+                                            class="post-file--img" (change)="onFileheadChange($event)" />
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterCopy' | translate}}">
+                                    <nz-form-label nzFor="emailID">{{"Copyrights" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="copyright" nz-input
+                                        formControlName="copy_rights" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterSiteMaintain' | translate}}">
+                                    <nz-form-label nzFor="categoryName">{{"SiteMaintain" | translate}}</nz-form-label>
+                                    <nz-select nzSize="large" formControlName="site_maintain" nzShowSearch
+                                        [(ngModel)]="sitemaintain">
+                                        <nz-option nzLabel="{{'True' |  translate}}" nzValue="true"></nz-option>
+                                        <nz-option nzLabel="{{'False' | translate}}" nzValue="false"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item> -->
+
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterTerms' | translate}}">
+                                    <nz-form-label nzFor="Terms">{{"Terms" | translate}}</nz-form-label>
+                                    <angular-editor formControlName="terms" [placeholder]="'Enter text here...'"
+                                        [(ngModel)]="terms">
+                                    </angular-editor>
+                                </nz-form-control>
+                            </nz-form-item> -->
+
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterPrivacy' | translate}}">
+                                    <nz-form-label nzFor="Privacy">{{"Privacy" | translate}}</nz-form-label>
+                                    <angular-editor formControlName="privacy" placeholder="{{'EnterHere' | translate}}"
+                                        [(ngModel)]="privacy">
+                                    </angular-editor>
+                                </nz-form-control>
+                            </nz-form-item> -->
+
+                            <button nzSize="large" nz-button [nzType]="'primary'"
+                                [nzLoading]="generaleditLoading">{{"UpdateGenSet" | translate}}</button>
+                        </form>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="{{'Local' | translate}}">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6">
+                        <form nz-form [formGroup]="localForm" (ngSubmit)="localSubmit()">
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="Please select time zone!">
+                                    <nz-form-label nzFor="timeZone">Time zone</nz-form-label>
+                                    <nz-select nzSize="large" formControlName="timeZone" nzShowSearch nzAllowClear
+                                        [(ngModel)]="selectedTimeZone">
+                                        <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+                                        <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+                                        <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item> -->
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'enterCurr' | translate}}">
+                                    <nz-form-label nzFor="currency">{{"Currency" | translate}}</nz-form-label>
+                                    <nz-select nzSize="large" formControlName="currency" nzShowSearch nzAllowClear
+                                        [(ngModel)]="selectedCurrency">
+                                        <nz-option nzLabel="Euro" nzValue="euro"></nz-option>
+                                        <nz-option nzLabel="Dollar" nzValue="dollar"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterLang' | translate}}">
+                                    <nz-form-label nzFor="language">{{"Language" | translate}}</nz-form-label>
+                                    <nz-select nzSize="large" formControlName="language" nzShowSearch nzAllowClear
+                                        [(ngModel)]="selectedLanguage">
+                                        <nz-option nzLabel="English" nzValue="english"></nz-option>
+                                        <nz-option nzLabel="Spanish" nzValue="spanish"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="localForm.invalid"
+                                [nzLoading]="localeditLoading">{{"UpdateLocSet" | translate}}</button>
+                        </form>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="{{'SEO' | translate}}">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6">
+                        <form nz-form [formGroup]="seoForm" (ngSubmit)="seoSubmit()">
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input site tracker code!">
+                                    <nz-form-label nzFor="siteTracker">Site tracker code</nz-form-label>
+                                    <input nzSize="large" type="text" nz-input formControlName="siteTracker" />
+                                </nz-form-control>
+                            </nz-form-item> -->
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnteTwit' | translate}}">
+                                    <nz-form-label nzFor="twitter">{{"Twitter" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="twitter" nz-input
+                                        formControlName="twitter" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterTel' | translate}}">
+                                    <nz-form-label nzFor="twitter">{{"Telegram" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="telegram" nz-input
+                                        formControlName="telegram" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterYoutube' | translate}}">
+                                    <nz-form-label nzFor="youtube">{{"Youtube" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="youtube" nz-input
+                                        formControlName="youtube" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterFace' | translate}}">
+                                    <nz-form-label nzFor="facebook">{{"Facebook" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="facebook" nz-input
+                                        formControlName="facebook" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterLinked' | translate}}">
+                                    <nz-form-label nzFor="linkedIn">{{"Linked" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="linkedin" nz-input
+                                        formControlName="linkedIn" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterInsta' | translate}}">
+                                    <nz-form-label nzFor="instagram">{{"Instagram" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="instagram" nz-input
+                                        formControlName="instagram" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterBlog' | translate}}">
+                                    <nz-form-label nzFor="instagram">{{"Blog" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="blog" nz-input
+                                        formControlName="blog" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input Android Link!">
+                                    <nz-form-label nzFor="instagram">Android Link</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="androidlink" nz-input formControlName="androidlink" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input Android Version!">
+                                    <nz-form-label nzFor="instagram">Android Version</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="androidversion" nz-input formControlName="androidversion" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input IOS Link!">
+                                    <nz-form-label nzFor="instagram">IOS Link</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="ioslink" nz-input formControlName="ioslink" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input IOS Version!">
+                                    <nz-form-label nzFor="instagram">IOS Version</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="iosversion" nz-input formControlName="iosversion" />
+                                </nz-form-control>
+                            </nz-form-item> -->
+                            <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="seoForm.invalid"
+                                [nzLoading]="seoeditLoading">{{"UpdateSEO" | translate}}</button>
+                        </form>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="{{'DeliveryCharge' | translate}}">
+                <form nz-form [formGroup]="deliveryForm" (ngSubmit)="deliverySubmit()">
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6" class="pr-5">
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="orderminErr">
+                                    <nz-form-label nzFor="ordermin">{{"OrderMin" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="ordermin" nz-input
+                                        formControlName="ordermin" />
+                                    <ng-template #orderminErr let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            {{"EnterOrderMin" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('min')">
+                                           {{"OrderMinPattern" | translate}}
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </div>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6">
+                            <!-- <nz-form-item>
+                                        <nz-form-control [nzErrorTip]="ordermaxErr">
+                                            <nz-form-label nzFor="twitter">Order Maximum Price</nz-form-label>
+                                            <input nzSize="large" type="number" [(ngModel)]="ordermax" nz-input formControlName="ordermax" />
+                                            <ng-template #ordermaxErr let-control>
+                                                <ng-container *ngIf="control.hasError('required')">
+                                                    Enter Maximum Order Price
+                                                </ng-container>
+                                                <ng-container *ngIf="control.hasError('min')">
+                                                    Maximum Order Price must be greater than 0
+                                                 </ng-container>
+                                            </ng-template>
+                                        </nz-form-control>
+                                    </nz-form-item> -->
+                        </div>
+                    </div>
+                    <h5>{{"DeliveryBleow" | translate}}</h5>
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6" class="pr-5">
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="belowdeliminErr">
+                                    <nz-form-label nzFor="belowmindeli">{{"NormalFee" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="belowmindeli" nz-input
+                                        formControlName="belowmindeli" />
+                                    <ng-template #belowdeliminErr let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            {{"EnterNormal" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('min')">
+                                           {{"NormalMin" | translate}}
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </div>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6">
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="belowdeliMaxErr">
+                                    <nz-form-label nzFor="belowmaxdeli">{{"ExpressFee" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="belowmaxdeli" nz-input
+                                        formControlName="belowmaxdeli" />
+                                    <ng-template #belowdeliMaxErr let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            {{"EnterNormal" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('min')">
+                                            {{"NormalMin" | translate}}
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <h5>{{"DeliveryAbove" | translate}}</h5>
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6" class="pr-5">
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="deliminErr">
+                                    <nz-form-label nzFor="mindeli">{{"NormalFee" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="mindeli" nz-input
+                                        formControlName="mindeli" />
+                                    <ng-template #deliminErr let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            {{"EnterNormal" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('min')">
+                                            {{"NormalMin" | translate}}
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </div>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6">
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="maxdeli">
+                                    <nz-form-label nzFor="twitter">{{"ExpressFee" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="maxdeli" nz-input
+                                        formControlName="maxdeli" />
+                                    <ng-template #deliMaxErr let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            {{"EnterNormal" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('min')">
+                                            {{"NormalMin" | translate}}
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+
+                    <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="deliveryForm.invalid"
+                        [nzLoading]="deliveryeditLoading">{{"UpdateDelivery" | translate}}</button>
+                </form>
+
+            </nz-tab>
+            <nz-tab nzTitle="{{'Discount' | translate}}">
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="10" nzXl="8" nzXXl="6">
+                        <form nz-form [formGroup]="discountForm" (ngSubmit)="discountSubmit()">
+                            
+
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterDiscount' | translate}}">
+                                    <nz-form-label nzFor="common_discount">{{"Discount" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="common_discount" nz-input
+                                        formControlName="common_discount" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            
+
+                            <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="discountForm.invalid"
+                                [nzLoading]="discounteditLoading">{{"UpdateDiscountSet" | translate}}</button>
+                        </form>
+                    </div>
+                </div>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+</main>

@@ -1,0 +1,54 @@
+<main>
+    <div class="d-flex flex-wrap flex-sm-row flex-column align-items-sm-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1 mb-3">{{"NotifyList" | translate}}</h4>
+        <div class="d-flex align-items-sm-center flex-sm-row flex-column-reverse">
+            <div class="mr-sm-3 mt-sm-0 mt-3">
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                    <input type="text" nz-input placeholder="{{'SearchNotify' | translate}}" [(ngModel)]="searchValue"
+                        (ngModelChange)="Search()" [ngModelOptions]="{standalone: true}" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                </ng-template>
+            </div>
+            <div>
+                <a routerLink="/notification/add" nz-button nzSize="small" nzType="primary">
+                    <i nz-icon nzType="plus"></i>
+                    <span>{{"Create" | translate}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="table-block">
+        <nz-table #basicTable [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th>{{"SNO" | translate}}</th>
+                    <th>{{"DateTime" | translate}}</th>
+                    <th>{{"Title" | translate}}</th>
+                    <th>{{"Message" | translate}}</th>
+                    <!-- <th>User Type</th> -->
+                    <th>{{"NotiType"| translate}}</th>
+                    <th>{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data; let i = index">
+                    <td>{{10*basicTable.nzPageIndex+( i + 1) - 10}}</td>
+                    <td>{{ data.createdAt | date:"medium" }}</td>
+                    <td>{{ data.title }}</td>
+                    <td>{{ data.message }}</td>
+                    <!-- <td>{{ data.user_type }}</td> -->
+                    <td>{{ data.type }}</td>
+                    <td>
+                        <button nz-popconfirm nzPopconfirmTitle="Are you sure delete this notification?"
+                            [nzPopconfirmShowArrow]="false" nz-button nzShape="circle"
+                            (nzOnConfirm)="deleteNotification(data._id)" (nzOnCancel)="cancel()">
+                            <i nz-icon nzType="delete" nzTheme="twotone" [nzTwotoneColor]="'#FF0000'"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</main>

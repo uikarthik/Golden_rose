@@ -1,0 +1,58 @@
+<main>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">User Edit</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/user']">User</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                User Edit
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please input your username!">
+                            <nz-form-label nzFor="password">User Name</nz-form-label>
+                            <input nzSize="large" type="text" nz-input formControlName="userName"
+                                placeholder="John Doe" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please input your email id!">
+                            <nz-form-label nzFor="password">Email ID</nz-form-label>
+                            <input nzSize="large" type="text" nz-input formControlName="email"
+                                placeholder="johndoe@gmail.com" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please input your email id!">
+                            <nz-form-label nzFor="mobileNumber">Mobile Number</nz-form-label>
+                            <input nzSize="large" type="number" nz-input formControlName="mobileNumber"
+                                placeholder="8922333545" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please input your password!">
+                            <nz-form-label nzFor="password">Password</nz-form-label>
+                            <input nzSize="large" type="password" nz-input formControlName="password"
+                                placeholder="******" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please input your confirm password!">
+                            <nz-form-label nzFor="confirmpassword">Confirm Password
+                            </nz-form-label>
+                            <input nzSize="large" type="password" nz-input formControlName="confirmpassword"
+                                placeholder="******" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <button nzSize="large" nz-button [nzType]="'primary'">Submit</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+</main>

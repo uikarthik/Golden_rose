@@ -1,0 +1,340 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0">{{"AddProduct" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/product']">{{"Product" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+               {{"AddProduct" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false" class="add-form-wrapper">
+        <div class="add-form-block">
+            <nz-steps [nzCurrent]="step" nzType="navigation">
+                <nz-step nzTitle="{{'ProductDetails' | translate}}"></nz-step>
+                <nz-step nzTitle="{{'Desc' | translate}}"></nz-step>
+            </nz-steps>
+            <!-- Step1 -- Start's -->
+            <div class="steps-content" *ngIf="step === 0">
+                <form nz-form [formGroup]="Step1validateForm" class="login-form">
+                    <h4 class="font-weight-bold mb-3 text-primary">{{'ProductDetails' | translate}}</h4>
+                    <div nz-row [nzGutter]="32">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterProName' | translate}}">
+                                    <nz-form-label nzFor="productName">{{"ProductName" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="name" nz-input
+                                        formControlName="productName" placeholder="Flower Pendant" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterProId' | translate}}">
+                                    <nz-form-label nzFor="productID">{{"PID" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="text" [(ngModel)]="product_id" nz-input
+                                        formControlName="productID" placeholder="msj006c-Khaki-M" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'SelectCat' | translate}}">
+                                    <nz-form-label nzFor="categoryname">{{"Category" | translate}}</nz-form-label>
+                                    <nz-select nzSize="large" formControlName="categoryname" nzShowSearch
+                                        [(ngModel)]="Category">
+                                        <nz-option *ngFor="let cate of categoryList" nzLabel="{{cate.name}}"
+                                            nzValue="{{cate._id}}"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </div>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'SelectProImg' | translate}}">
+                                    <nz-form-label nzFor="colors">{{"Pimage" | translate}}</nz-form-label>
+                                    <div nz-row [nzGutter]="16">
+                                        <div nz-col nzXs="24" nzSm="24" [nzMd]="
+                                        preview.length % 2 != 0 &&
+                                        i + 1 == preview.length
+                                        ? '24'
+                                        : '12'
+                                        " *ngFor="
+                                        let data of preview;
+                                        let i = index
+                                        ">
+                                            <div class="upload-preview" *ngIf="preview?.length > 0">
+                                                <div class="preview-item">
+                                                    <div class="preview-item-img d-flex justify-content-center">
+                                                        <img [src]="data" alt="post" draggable="false" height="100px"
+                                                            width="100px" />
+
+                                                        <div class="preview-cancel" (click)="RemoveFile(i)">
+                                                            <i nz-icon nzType="delete" style="color: white;"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="attachment-item post-file">
+                                        <div>{{"Upimage" | translate}}</div>
+                                        <input accept=".jpg,.jpeg,.png" multiple="true" display="inline" tabindex="0"
+                                            type="file" class="post-file--img" (change)="onFileChange($event)" />
+                                    </div>
+
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step1 -- End -->
+            <div class="steps-content" *ngIf="step === 1">
+                <form nz-form [formGroup]="Step2validateForm" class="login-form">
+
+                    <h4 class="font-weight-bold mb-3 text-primary">{{"Desc" | translate}}</h4>
+                    <div nz-row [nzGutter]="32">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="8">           
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="disErr">
+                                    <nz-form-label nzFor="discount">{{"Discount" | translate}} %</nz-form-label>
+                                    <input nzSize="large" type="number" min="1" nz-input [(ngModel)]="percentage"
+                                        formControlName="discount" placeholder="Discount" />
+                                        <ng-template #disErr let-control>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                {{"IpDiscount" | translate}}
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('min') || control.hasError('max')">
+                                                {{"InDiscount" | translate}} 
+                                             </ng-container>
+                                            
+                                        </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input stock available!">
+                                    <nz-form-label nzFor="stock">{{"SA" | translate}}</nz-form-label>
+                                    <nz-select formControlName="stock" nzShowSearch nzAllowClear
+                                        nzPlaceHolder="Select stock" [(ngModel)]="stockValue" [nzSize]="'large'">
+                                        <nz-option nzLabel="In Stock" nzValue="true"></nz-option>
+                                        <nz-option nzLabel="Out of Stock" nzValue="false"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <!-- <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input gender!">
+                                    <nz-form-label nzFor="gender">{{"Gender" | translate}}</nz-form-label>
+                                    <nz-select formControlName="gender" nzShowSearch nzAllowClear
+                                        nzPlaceHolder="Select gender" [(ngModel)]="selectedGender" [nzSize]="'large'">
+                                        <nz-option nzLabel="Male" nzValue="MALE"></nz-option>
+                                        <nz-option nzLabel="Female" nzValue="FEMALE"></nz-option>
+                                        <nz-option nzLabel="Both" nzValue="BOTH"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item> -->
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterType' | translate}}">
+                                    <nz-form-label nzFor="type">{{"Type" | translate}}</nz-form-label>
+                                    <nz-select formControlName="type" nzShowSearch nzAllowClear nzMode="multiple"
+                                        nzPlaceHolder="Select Type" [(ngModel)]="tagtype" [nzSize]="'large'">
+                                        <nz-option nzLabel="{{'Women' | translate}}" nzValue="WOMEN"></nz-option>
+                                        <nz-option nzLabel="{{'Men' | translate}}" nzValue="MEN"></nz-option>
+                                        <nz-option nzLabel="{{'Communion' | translate}}" nzValue="COMMUNION"></nz-option>
+                                        <nz-option nzLabel="{{'Babyborn' | translate}}" nzValue="BABYBORN"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please select price by!">
+                                    <nz-form-label nzFor="sizeselect">{{"Priceby" | translate}}</nz-form-label>
+                                    <nz-select nzSize="large" formControlName="productprice" nzShowSearch nzAllowClear
+                                        [(ngModel)]="product_price" (ngModelChange)="priceValidate()">
+                                        <nz-option nzLabel="{{'Fixed' | translate}}" nzValue="FIXED"></nz-option>
+                                        <nz-option nzLabel="{{'Custom' | translate}}" nzValue="CUSTOM"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="8">
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="{{'EnterSubType' | translate}}">
+                                    <nz-form-label nzFor="type">{{"subtype" | translate}}</nz-form-label>
+                                    <nz-select formControlName="sub_type" nzShowSearch nzAllowClear 
+                                        nzPlaceHolder="Select Type" [(ngModel)]="subtagtype" [nzSize]="'large'">
+                                        <nz-option [nzValue]="sub.name" [nzLabel]="sub.name"
+                                        *ngFor="let sub of SubtypeList"></nz-option>
+                                        </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                          
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input long description!">
+                                    <nz-form-label nzFor="longDescription">{{"Longdesc" | translate}}</nz-form-label>
+                                    <angular-editor formControlName="longDescription"
+                                    placeholder="{{'EnterHere' | translate}}" [(ngModel)]="htmlContent">
+                                    </angular-editor>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </div>
+                    </div>
+
+                    <div nz-row [nzGutter]="32" *ngIf="product_price == 'FIXED'">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="8">
+                            <h3>{{"PD" | translate}}</h3>
+                            <nz-form-item>
+                                <nz-form-control [nzErrorTip]="qtyErr1"  *ngIf="product_price == 'FIXED'">
+                                    <nz-form-label nzFor="quantity">{{"Quantity" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="quantity" nz-input
+                                    formControlName="Quantity" placeholder="quantity" />
+                                    <ng-template #qtyErr1 let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            {{"EQuantity" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('min')">
+                                            {{"QC1" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('pattern')">
+                                            {{"QC2" | translate}}
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <!-- <nz-form-item>
+                                <nz-form-control [nzErrorTip]="weErr" *ngIf="product_price == 'FIXED'">
+                                    <nz-form-label nzFor="weight">{{"Weight" | translate}}</nz-form-label>
+                                    <input nzSize="large" type="number" [(ngModel)]="weight" nz-input
+                                        formControlName="weight" placeholder="weight" />
+                                    <ng-template #weErr let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            {{"WE" | translate}}
+                                        </ng-container>
+                                        <ng-container *ngIf="control.hasError('min')">
+                                            {{"WC" | translate}}
+                                        </ng-container>
+                                        
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item> -->
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input Size or Weight"
+                                    *ngIf="product_price == 'FIXED'">
+                                    <span class="text-primary">Note: In size enter any values (e.g, mm/cm/small etc..,)</span>
+                              
+                                    <nz-form-label nzFor="price">{{"Size" | translate}}</nz-form-label>
+                                    <nz-input-group>
+                                        <input nzSize="large" type="text" [(ngModel)]="size" nz-input
+                                            formControlName="sizeValue" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input product price!"
+                                    *ngIf="product_price == 'FIXED'">
+                                    <nz-form-label nzFor="price">{{"Price" | translate}}</nz-form-label>
+                                    <nz-input-group [nzSuffix]="suffixPriceDollar">
+                                        <input nzSize="large" type="number" min="1" [(ngModel)]="price" nz-input
+                                            placeholder="0.00" formControlName="price" />
+                                    </nz-input-group>
+                                    <ng-template #suffixPriceDollar>
+                                        €
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="32" *ngIf="product_price == 'CUSTOM'">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                            <h3>{{"PD" | translate}}</h3>
+                            <div nz-row [nzGutter]="16" *ngIf="product_price == 'CUSTOM'">
+                                <div nz-col nzSpan="24">
+                                    <span class="text-primary">Note: In size enter any values (e.g, mm/cm/small etc..,)</span>
+                                </div>
+                                <div nz-col nzSpan="6">
+                                    <nz-form-item *ngFor="let sizectrl of sizeOfControl; let i = index">
+                                        <nz-form-control nzErrorTip="Please input size or weight.">
+                                            <nz-form-label *ngIf="i == 0">{{"Size" | translate}}
+                                            </nz-form-label>
+                                            <input class="passenger-input" nzSize="large" nz-input
+                                                [attr.id]="sizectrl.id" [(ngModel)]="size[i]"
+                                                [ngModelOptions]="{standalone: true}" />
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+                                                (click)="removeField(sizectrl, $event)"></i>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <button nz-button nzType="dashed" class="add-button"
+                                                (click)="addField($event)">
+                                                <i nz-icon nzType="plus"></i>
+                                                {{"Addfield" | translate}}
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div nz-col nzSpan="6">
+                                    <nz-form-item *ngFor="let qty of qtyOfControl; let i = index">
+                                        <nz-form-control nzErrorTip="Please input Price.">
+                                            <nz-form-label *ngIf="i == 0">{{"Quantity" | translate}}
+                                            </nz-form-label>
+                                            <input class="passenger-input" type="number" min="1" nzSize="large" nz-input
+                                                [attr.id]="qty.id" [(ngModel)]="qty.value"
+                                                [ngModelOptions]="{standalone: true}" />
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+                                                style="color:white"></i>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div nz-col nzSpan="6">
+                                    <nz-form-item *ngFor="let weictrl of weightOfControl; let i = index">
+                                        <nz-form-control nzErrorTip="Please input Weight.">
+                                            <nz-form-label *ngIf="i == 0">{{"Weight" | translate}}
+                                            </nz-form-label>
+                                            <input class="passenger-input" type="number" min="1" nzSize="large" nz-input
+                                                [attr.id]="weictrl.id" [(ngModel)]="weictrl.value"
+                                                [ngModelOptions]="{standalone: true}" />
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+                                                style="color:white"></i>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div nz-col nzSpan="6">
+                                    <nz-form-item *ngFor="let control of listOfControl; let i = index">
+                                        <nz-form-control nzErrorTip="Please input Price.">
+                                            <nz-form-label *ngIf="i == 0">{{"Price" | translate}}
+                                            </nz-form-label>
+                                            <input class="passenger-input" type="number" min="1" nzSize="large" nz-input
+                                                [attr.id]="control.id" [(ngModel)]="control.value"
+                                                [ngModelOptions]="{standalone: true}" />
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+                                                style="color:white"></i>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+
+        <div class="steps-action">
+            <button nz-button nzType="default" nzSize="large" class="mr-3" (click)="pre()" *ngIf="step === 1">
+                <span>{{"Previous" | translate}}</span>
+            </button>
+            <button nz-button nzType="primary" nzSize="large" [disabled]="Step1validateForm.invalid" (click)="next()"
+                *ngIf="step === 0">
+                <span>{{"Next" | translate}}</span>
+            </button>
+            <button nz-button nzType="primary" nzSize="large" [disabled]="Step2validateForm.invalid"
+                (click)="done();submitForm()" [nzLoading]="editLoading" *ngIf="step === 1">
+                <span>{{"Done" | translate}}</span>
+            </button>
+        </div>
+    </nz-card>
+</main>

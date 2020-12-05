@@ -1,0 +1,83 @@
+<main>
+    <div class="d-flex flex-wrap flex-sm-row flex-column align-items-sm-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1 mb-3">{{"TypeList" | translate}}</h4>
+        <div class="d-flex align-items-sm-center flex-sm-row flex-column-reverse">
+            <div class="mr-sm-3 mt-sm-0 mt-3">
+                <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input-group">
+                    <input type="text" nz-input placeholder="{{'Search' | translate}}" [(ngModel)]="searchValue"
+                        (ngModelChange)="Search()" [ngModelOptions]="{standalone: true}" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                </ng-template>
+            </div>
+            <div>
+                <a routerLink="/Type" nz-button nzSize="small" nzType="primary">
+                    <i nz-icon nzType="plus"></i>{{"AddType" | translate}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <nz-card [nzBordered]="true" class="mb-4 card-p-0">
+        <nz-table #recentOrderTable [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th>{{"SNO" | translate}}</th>
+                    <th>{{"TyName" | translate}}</th>
+                    <th>{{"Image" | translate}}</th>
+                    <th>{{"HeaderImage" | translate}}</th>
+                    <th>{{"Status" | translate}}</th>
+                    <th class="text-center">{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of recentOrderTable.data; let i=index">
+                    <td>{{10*recentOrderTable.nzPageIndex+( i + 1) - 10}}</td>
+                    <td>{{ data.name }}</td>
+                    <td>
+                        <div class="top-product">
+                            <div class="top-product-img mr-0">
+                                <!-- <img [src]="url+data.file[0]" alt="airpod" draggable="false"> -->
+                                <img *ngIf="data.file.length > 0" [src]="url+data.file[0]['path']" class="cusimg">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="top-product">
+                            <div class="top-product-img mr-0">
+                                <!-- <img [src]="url+data.file[0]" alt="airpod" draggable="false"> -->
+                                <img *ngIf="data.header_image.length > 0" [src]="url+data.header_image[0]['path']" class="cusimg">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <nz-tag [nzColor]="'green'" *ngIf="data.status == true">
+                            <span>{{"True" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'red'" *ngIf="data.status == false">
+                            <span>{{"False" | translate}}</span>
+                        </nz-tag>
+                    </td>
+                    <td class="text-center">
+                        <a routerLink="/update/{{data._id}}" nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="edit"></i>
+                        </a>
+                        <!-- <nz-divider nzType="vertical"></nz-divider> -->
+                        <!-- <button nz-button nzType="default" nzShape="circle" *ngIf="data.status == false"
+                            data-toggle="tooltip" title="Enable!" (click)="EnableType(data)">
+                            <i nz-icon nzType="file-protect" [nzTwotoneColor]="'#ff1000'"></i>
+                        </button>
+                        <button nz-button nzType="default" nzShape="circle" *ngIf="data.status == true"
+                            data-toggle="tooltip" title="Disable!" (click)="EnableType(data)">
+                            <i nz-icon nzType="disconnect"></i>
+                        </button>
+                        <nz-divider nzType="vertical"></nz-divider> -->
+                        <!-- <button nz-button nzType="default" nzShape="circle" (click)="deleteCoupon(data._id)">
+                            <i nz-icon nzType="delete"></i>
+                        </button> -->
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</main>

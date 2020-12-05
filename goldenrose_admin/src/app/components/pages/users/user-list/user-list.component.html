@@ -1,0 +1,77 @@
+<main>
+    <div class="d-flex flex-wrap flex-sm-row flex-column align-items-sm-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1 mb-3">{{"Ulist" | translate}}</h4>
+        <div class="d-flex align-items-sm-center flex-sm-row flex-column-reverse">
+            <div class="mr-sm-3 mt-sm-0 mt-3">
+                <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input-group">
+                    <input type="text" nz-input placeholder="{{'Search' | translate}}" [(ngModel)]="searchValue"
+                        (ngModelChange)="Search()" [ngModelOptions]="{standalone: true}" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                </ng-template>
+            </div>
+            <div>
+                <a routerLink="/user/add" nz-button nzSize="small" class="mr-2" nzType="primary">
+                    <i nz-icon nzType="plus"></i>{{"AUser" | translate}}
+                </a>
+                <a nz-button nzSize="small" nzType="primary" (click)="UserExport()">{{"Export" | translate}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="table-block">
+        <nz-table #basicTable [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th>{{"SNO" | translate}}</th>
+                    <th>{{"Uname" | translate}}</th>
+                    <th>{{"Umail" | translate}}</th>
+                    <th>{{"Mob" | translate}}</th>
+                    <th>DOJ</th>
+                    <th>{{"Status" | translate}}</th>
+                    <th>{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data; let i=index">
+                    <td>{{10*basicTable.nzPageIndex+( i + 1) - 10}}</td>
+                    <td>
+                        <a routerLink="/">
+                            <nz-avatar [nzSize]="32" nzText="{{data.user_name | slice:0:1}}"
+                                class="mr-2 text-uppercase">
+                            </nz-avatar>
+                            {{ data.user_name | titlecase }}
+                        </a>
+                    </td>
+                    <td>{{ data.email }}</td>
+                    <td>{{ data.mobile }}</td>
+                    <td>{{ data.createdAt | date }}</td>
+                    <td>
+                        <nz-tag [nzColor]="'green'" *ngIf="data.verified == true">
+                            <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                            <span>{{"Active" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'red'" *ngIf="data.verified == false">
+                            <i nz-icon nzType="warning" nzTheme="outline"></i>
+                            <span>{{"Disabled" | translate}}</span>
+                        </nz-tag>
+                    </td>
+                    <td>
+                        <a routerLink='/user/view/{{data._id}}' nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="eye"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a routerLink='/user/update/{{data._id}}' nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="edit"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a  nz-button nzType="default" nzShape="circle" (click)="deleteUser(data._id)">
+                            <i nz-icon nzType="delete"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</main>

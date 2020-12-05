@@ -1,0 +1,190 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3" >
+        <h4 class="mb-sm-0">{{"OrderDet" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/orders']">{{"OrderList" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"Order" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <section class="order-details-section">
+        <div nz-row [nzGutter]="32" nzAlign="middle">
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="12" nzXXl="16">
+                <nz-steps [nzCurrent]="step" [nzProgressDot]="progressTemplate">
+                    <nz-step nzTitle="{{'OrderPlaced' | translate}}"></nz-step>
+                    <nz-step nzTitle="{{'Packed' | translate}}"></nz-step>
+                    <nz-step nzTitle="{{'Shipped' | translate}}"></nz-step>
+                    <nz-step nzTitle="{{'Delivered' | translate}}"></nz-step>
+                </nz-steps>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="12" nzXXl="8">
+                <form nz-form [formGroup]="validateForm" 
+                    class="justify-content-xl-end mb-3 mb-xl-0 d-flex align-items-end">
+                    <nz-form-item class="mr-3">
+                        <nz-form-control nzErrorTip="{{'EnterOrderStat' | translate}}">
+                            <nz-form-label nzFor="order" class="d-flex align-items-center">{{"OrderStat" | translate}}</nz-form-label>
+                            <nz-select nzSize="large" [(ngModel)]="orderStatus" [nzDisabled]="step == 3"
+                                formControlName="order" style="width:100%" [nzDropdownMatchSelectWidth]="false">
+                                <nz-option nzValue="ORDERED" nzLabel="{{'OrderPlaced' | translate}}"></nz-option>
+                                <nz-option nzValue="PACKED" nzLabel="{{'Packed' | translate}}"></nz-option>
+                                <nz-option nzValue="SHIPPED" nzLabel="{{'Shipped' | translate}}"></nz-option>
+                                <nz-option nzValue="DELIVERED" nzLabel="{{'Delivered' | translate}}"></nz-option>
+                            </nz-select>
+                            <ng-template #orderStatusIcon>
+                                <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item class="mr-0">
+                        <nz-form-control>
+                            <button nz-button nzType="primary" nzSize="large" class="mr-12"
+                                [disabled]="!validateForm.valid" (click)="submitForm()">{{"Save" | translate}}</button>
+                                <button nz-button nzType="primary" nzSize="large" (click)="convetToPDF()" [nzLoading]="isLoading"
+                                ><i nz-icon nzType="download" nzTheme="outline"></i> Invoice</button>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+               
+            </div>
+        </div>
+        <ng-template #progressTemplate let-dot let-status="{{resultData.order_status}" let-index="index">
+            <span nz-popover nzContent="steps {{ index }} status: {{ resultData.order_status }}"
+            style="margin-left: -100%;">
+            <ng-template [ngTemplateOutlet]="dot"></ng-template>
+            </span>
+        </ng-template>
+        <div #content id="content">
+        <div nz-row [nzGutter]="24">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="16">
+                <nz-card [nzBordered]="false" nzTitle="{{'ItemFrom' | translate}} {{resultData.tx_id}}"
+                    class="mb-4 card-p-0 order-card">
+                    <nz-table #orderTable [nzData]="listOfData" [nzShowPagination]="'false'">
+                        <thead>
+                            <tr>
+                                <th>{{"Items" | translate}}</th>
+                                <th>{{"Price" | translate}}</th>
+                                <th>{{"Size" | translate}}</th>
+                                <th>{{"Quantity" | translate}}</th>
+                                <th>{{"Total" | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of orderTable.data;let i = index">
+                                <td>
+                                    <div class="top-product">
+                                        <div class="top-product-img">
+                                            <img src="{{url + data.product_id.file[0].path}}" alt="airpod"
+                                                draggable="false">
+                                        </div>
+                                        <div class="product-name">
+                                            <div>{{data.product_id.name}}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>€{{ data.price_per_qty }}</td>
+                                <td>{{ data.product_id.size[data.price_id] }}</td>
+                                <td>&#10005; {{ data.quantity }}</td>
+                                <td>€{{ data.available_price }}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-card>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="8">
+                <nz-card [nzBordered]="false" nzTitle="Order Summary" class="mb-4 card-p-0 order-card">
+                    <nz-table [nzData]="['']" [nzShowPagination]="false">
+                        <thead>
+                            <tr>
+                                <th>{{"Desc" | translate}}</th>
+                                <th>{{"Price" | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{"GrandTotal" | translate}}:</td>
+                                <td>€{{ resultData.amount_paid - resultData.delivery_fee }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{"DeliveryCharge" | translate}}:</td>
+                                <td>€{{ resultData.delivery_fee }}</td>
+                            </tr>
+                            <tr *ngIf="resultData.coupon_offer > 0">
+                                <td>{{"CoApplied" | translate}}:</td>
+                                <td> - €{{ resultData.coupon_offer }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{"Total" | translate}}:</th>
+                                <td>€{{ resultData.amount }}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-card>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="8">
+                <nz-card [nzBordered]="false" nzTitle="{{'ShipInfo' | translate}}" class="mb-4 order-card order-card-info">
+                    <h6 class="font-weight-bold">{{address.user_name}}</h6>
+                    <address class="mb-0">
+                        {{address.address}}<br>
+                        {{address.locality}}<br>
+                        {{address.city}}<br>
+                        {{address.state}}<br>
+                        {{address.pincode}}<br>
+                    </address>
+                    <span>Mobile:</span><span class="ml-3">{{address.mobile}}</span>
+                </nz-card>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="8">
+                <nz-card [nzBordered]="false" nzTitle="{{'BillInfo' | translate}}" class="mb-4 order-card order-card-info">
+                    <ul class="mb-0 list-inline">
+                        <li>
+                            <p class="mb-2">
+                                <span class="font-weight-bold mr-2">{{"PayType" | translate}}:</span>
+                                <span>{{"OnlinePay" | translate}}</span>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="mb-2">
+                                <span class="font-weight-bold mr-2">{{"CardNo" | translate}}:</span>
+                                <span>{{resultData.paid_through}}</span>
+                            </p>
+                        </li>
+                        <!-- <li>
+                            <p class="mb-2">
+                                <span class="font-weight-bold mr-2">Validate Date:</span>
+                                <span>02/2020</span>
+                            </p>
+                        </li> -->
+                        <li>
+                            <p class="mb-2">
+                                <span class="font-weight-bold mr-2">{{"CVV" | translate}}:</span>
+                                <span>XXX</span>
+                            </p>
+                        </li>
+                    </ul>
+                </nz-card>
+            </div>
+            <!-- <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzXXl="8">
+                <nz-card [nzBordered]="false" nzTitle="Delivery Info" class="mb-4 order-card order-card-info">
+                    <div class="text-center">
+                        <i nz-icon nzType="send" nzTheme="outline"></i>
+                        <h6 class="mt-2 font-weight-bold">UPS Delivery</h6>
+                        <p class="mb-1">
+                            <b>Order ID: </b>
+                            <span>#121093</span>
+                        </p>
+                        <p>
+                            <b>Payment Type: </b>
+                            <span>COD</span>
+                        </p>
+                    </div>
+                </nz-card>
+            </div> -->
+        </div>
+    </div>
+    </section>
+</main>

@@ -1,0 +1,17 @@
+<nz-layout class="layout">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzBreakpoint]="'lg'" [nzCollapsedWidth]="0"
+        [nzTrigger]="null" [nzZeroTrigger]="0" nzTheme="light">
+        <app-sidenav></app-sidenav>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>
+            <app-header></app-header>
+        </nz-header>
+        <nz-content>
+            <router-outlet></router-outlet>
+        </nz-content>
+        <nz-footer>
+            <app-footer></app-footer>
+        </nz-footer>
+    </nz-layout>
+</nz-layout>

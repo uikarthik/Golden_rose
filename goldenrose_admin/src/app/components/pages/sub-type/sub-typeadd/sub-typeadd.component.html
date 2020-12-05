@@ -1,0 +1,42 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0">{{"AddSub" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/subtypeList']">{{"Subtype" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"AddSub" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form [formGroup]="validateForm" class="login-form">
+                    <nz-form-item>
+                        <nz-form-control [nzErrorTip]="CategoryErr">
+                            <nz-form-label nzFor="categoryName">{{"SubName" | translate}}</nz-form-label>
+                            <input nzSize="large" type="text" nz-input formControlName="categoryName"
+                                placeholder="Gold" />
+                                <ng-template #CategoryErr let-control>
+                                    <ng-container *ngIf="control.hasError('required')">
+                                        {{"EnterSub" | translate}}
+                                    </ng-container>
+                                    <ng-container *ngIf="control.hasError('minlength')">
+                                        {{"SubMin" | translate}}
+                                     </ng-container>
+                                     <ng-container *ngIf="control.hasError('maxlength')">
+                                        {{"SubMax" | translate}}
+                                     </ng-container>
+                                </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                  
+                    <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="validateForm.invalid"
+                        [nzLoading]="editLoading" (click)="submitForm()">{{"Submit" | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+</main>

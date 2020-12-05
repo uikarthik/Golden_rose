@@ -1,0 +1,211 @@
+/* ----------------------------------
+Variables
+-------------------------------------*/
+@font-size: 16px;
+@primary-color: #76323f;
+@white-color: #ffffff;
+@yellow-color: #feb72b;
+@red-color: #fd5e53;
+@green-color: #21bf73;
+@text-color: #112331;
+@border-radius: 4px;
+@myfont: 'Spartan', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+/* ----------------------------------
+Escaping
+-------------------------------------*/
+// Max
+@max1600: ~"(max-width: 1600px)";
+@max1200: ~"(max-width: 1200px)";
+@max992: ~"(max-width: 992px)";
+@max768: ~"(max-width: 768px)";
+@max576: ~"(max-width: 576px)";
+@max575: ~"(max-width: 575px)";
+@max425: ~"(max-width: 425px)";
+// Min
+@min992: ~"(min-width: 992px)";
+
+
+/* ----------------------------------
+Ant Design
+-------------------------------------*/
+.ant-btn-sm {
+    height: 38px;
+}
+
+a.ant-btn-sm {
+    line-height: 38px;
+}
+
+.ant-table-content {
+    overflow-x: auto;
+}
+
+.ant-tag {
+    margin: 0px;
+    border: 0;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-weight: 600;
+
+    &.ant-tag-yellow {
+        color: #fab314;
+        background: #fff3d6;
+    }
+
+    &.ant-tag-green {
+        background: #d4ffe8;
+        color: #06cd64;
+    }
+
+    &.ant-tag-red {
+        color: #ec3751;
+        background: #f8c2c9;
+
+        .anticon {
+            color: inherit;
+        }
+    }
+}
+
+.orderplaced {
+    color: #fab314 !important;
+    background: #fff3d6 !important;
+
+    .ant-select-selector {
+        background: #fff3d6 !important;
+    }
+
+    .anticon-caret-down {
+        color: #fab314 !important;
+    }
+}
+
+.packed {
+    color: #722ed1 !important;
+    background: #f9f0ff !important;
+
+    .ant-select-selector {
+        background: #f9f0ff !important;
+    }
+
+    .anticon-caret-down {
+        color: #722ed1 !important;
+    }
+}
+
+.shipped {
+    color: #1890ff !important;
+    background: #e6f7ff !important;
+
+    .ant-select-selector {
+        background: #e6f7ff !important;
+    }
+
+    .anticon-caret-down {
+        color: #1890ff !important;
+    }
+}
+
+.delivered {
+    background: #d4ffe8;
+    color: #06cd64;
+
+    .ant-select-selector {
+        background: #d4ffe8 !important;
+    }
+
+    .anticon-caret-down {
+        color: #06cd64 !important;
+    }
+}
+
+
+.ant-dropdown-menu {
+    min-width: 120px;
+    padding: 2px 0px;
+
+    .ant-dropdown-menu-item {
+        padding: 8px 12px;
+    }
+}
+
+// Input
+.ant-input-lg {
+    padding: 7px 11px;
+}
+
+.ant-input-affix-wrapper {
+    border-radius: 4px;
+    .ant-input-lg();
+    height: 38px;
+    display: flex;
+    align-items: center;
+}
+
+.ant-select-selector {
+    border-radius: 4px;
+}
+
+// Avatar
+.ant-avatar-string {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+// Modal
+.ant-modal-confirm-body {
+    .ant-modal-confirm-title {
+        font-weight: 600;
+    }
+}
+
+.ant-modal-title {
+    font-weight: 600;
+}
+
+.ant-modal-footer {
+    padding: 16px;
+}
+
+/* ----------------------------------
+Custom Class
+-------------------------------------*/
+.text-info {
+    color: #3e87fa !important;
+}
+
+.text-dark {
+    color: @text-color  !important;
+}
+
+.search-input-group {
+    max-width: 220px;
+}
+
+.top-product {
+    display: flex;
+    align-items: center;
+
+    .ant-rate-star:not(:last-child) {
+        margin-right: 4px;
+    }
+
+    .ant-rate {
+        font-size: 15px;
+    }
+
+    .top-product-img {
+        margin-right: 12px;
+        border-radius: 6px;
+        width: 48px;
+        height: 48px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}

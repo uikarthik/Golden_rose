@@ -1,0 +1,405 @@
+<app-header #myChild></app-header>
+<div class="main-container col3-layout main-wrapper">
+    <div class="container">
+        <h1 class="text-caplitalize text-center">{{ (sub_cat_id |  titlecase) | translate }}</h1>
+        <div nz-row nzGutter="16" nzAlign="middle" class="search-filter">
+            <div nz-col nzXs="24" nzSm="8" nzMd="8" nzLg="6" nzXl="4">
+                <nz-form-item class="d-block">
+                    <nz-form-label [nzNoColon]="'true'" nzFor="email" class="d-block">{{"Category"|translate}}
+                    </nz-form-label>
+                    <nz-select [(ngModel)]="categoryValue"
+                        (ngModelChange)="productByCategory(categoryValue,cattype);getCatname(categoryValue)"
+                        [ngModelOptions]="{standalone: true}" [nzShowSearch]="true">
+                        <nz-option nzValue="All" nzLabel="{{'All'|translate}}">
+                        </nz-option>
+                        <nz-option *ngFor="let cate of categoryList" nzValue="{{ cate._id }}" nzLabel="{{ cate.name }}">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="14" nzLg="12" nzXl="10">
+                <div nz-row nzGutter="16" nzAlign="bottom">
+                    <div nz-col nzXs="24" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                        <nz-form-item>
+                            <nz-form-label [nzNoColon]="'true'" nzFor="email" class="d-block">{{"Mi"|translate}}
+                            </nz-form-label>
+                            <nz-input-group nzSuffix="€">
+                                <input type="text" nz-input placeholder="{{'Mi'|translate}}" [(ngModel)]="minrange"
+                                    (ngModelChange)="rangeSort(minrange,maxrange)" />
+                            </nz-input-group>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                        <nz-form-item>
+                            <nz-form-label [nzNoColon]="'true'" nzFor="email" class="d-block">{{"Max"|translate}}
+                            </nz-form-label>
+                            <nz-input-group nzSuffix="€">
+                                <input type="text" nz-input placeholder="5000" [(ngModel)]="maxrange"
+                                    (ngModelChange)="rangeSort(minrange,maxrange)" />
+                            </nz-input-group>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+                        <nz-form-item>
+                            <button nzType="primary" nzBlock nz-button
+                                (click)="clearSort()"><span>{{"ClearSort"|translate}}</span>
+                            </button>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div>
+    </div> -->
+    <div class="container">
+        <div nz-row nzGutter="32">
+            <div nz-col nzSpan="24" *ngIf="listOfData.length == 0" class="text-center py-5">
+                {{"NoItemFound"|translate}}
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6" *ngFor="let data of sampleitem; let i = index ">
+                <div class="custom-product-list">
+                    <div class="category-products pro-list">
+                        <ol class="products-list mb-0">
+                            <li class="item d-flex w-100">
+                                <div class="inner d-flex flex-wrap w-100">
+                                    <div class="item-image">
+                                        <div class="item-image-inner">
+                                            <a class="product-image user-select-none" *ngIf="isloggedin == 'true'">
+                                                <img [src]="url+data.file[0].path" *ngIf="data.file.length > 0"
+                                                    routerLink="/product/{{data._id}}" alt="">
+                                                <img src="../../../assets//images//notavailable.jpg"
+                                                    *ngIf="!data.file.length > 0" routerLink="/product/{{data._id}}"
+                                                    alt="">
+                                            </a>
+                                            <a class="product-image user-select-none" *ngIf="isloggedin != 'true'">
+                                                <img [src]="url+data.file[0].path" *ngIf="data.file.length > 0"
+                                                    routerLink="/productview/{{data._id}}" alt="">
+                                                <img src="../../../assets//images//notavailable.jpg"
+                                                    *ngIf="!data.file.length > 0" routerLink="/productview/{{data._id}}"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="product-whislist-add" *ngIf="isloggedin == 'true'">
+                                            <button nz-button nzType="default" nzShape="circle" class="wishlist-btn"
+                                                (click)="addWish(data,i)" *ngIf="data.iswishlisted == false">
+                                                <i nz-icon nzType="heart" nzTheme="outline"></i>
+                                            </button>
+                                            <button nz-button nzType="default" nzShape="circle" class="wishlist-btn"
+                                                (click)="removeWish(data,i)" *ngIf="data.iswishlisted == true">
+                                                <i nz-icon nzType="heart" nzTheme="fill" class="icon-filled"
+                                                    *ngIf="data.iswishlisted == true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-info ml-0">
+                                        <div class="product-item-block">
+                                            <div class="d-flex flex-wrap">
+                                                <div class="prdouct-details-info user-select-none flex-wrap">
+                                                    <div class="product-name">
+                                                        <a *ngIf="isloggedin == 'true'"
+                                                            routerLink="/product/{{data._id}}"
+                                                            class="mb-1">{{ data.name }}</a>
+                                                        <a *ngIf="isloggedin != 'true'"
+                                                            routerLink="/productview/{{data._id}}"
+                                                            class="mb-1">{{ data.name }}</a>
+                                                    </div>
+                                                    <p class="mb-0"
+                                                        *ngIf="data.stock_available == true && data.stock_count < 10"
+                                                        style="color: red">{{"HurryUp"|translate}}
+                                                        {{data.stock_count}} {{"Left"|translate}}</p>
+                                                    <div class="wrap-ns-price">
+                                                        <div class="price-box">
+                                                            <p class="special-price">
+                                                                <span
+                                                                    class="price">{{ data.available_price[0]|number:'1.1-2'}}€</span>
+                                                                <del
+                                                                    *ngIf="data.offer_percentage > 0">{{data.price[0] | number:'1.1-2'}}€</del>
+                                                            </p>
+                                                        </div>
+                                                        <div class="wrap-new-sale" *ngIf="data.offer_percentage > 0">
+                                                            <div class="sale-item">
+                                                                {{data.offer_percentage}}%
+                                                            </div>
+                                                            <div class="new-item">{{"off"|translate}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="position-relative product-add-cart justify-content-start">
+                                                    <div class="box-qty-btncart">
+                                                        <div class="mb-3">
+                                                            <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate"
+                                                                [nzAddOnAfter]="addOnAfterTemplate">
+                                                                <input type="text" disabled="disabled"
+                                                                    class="text-center focus" nz-input
+                                                                    [(ngModel)]="data.productcount" />
+                                                            </nz-input-group>
+                                                            <ng-template #addOnBeforeTemplate>
+                                                                <i nz-icon nzType="minus" nzTheme="outline"
+                                                                    class="cursor-pointer" (click)="Removecount(i)"></i>
+                                                            </ng-template>
+                                                            <ng-template #addOnAfterTemplate>
+                                                                <i nz-icon nzType="plus" nzTheme="outline"
+                                                                    class="cursor-pointer" (click)="Addcount(i)"
+                                                                    [ngClass]="{'a_disabled':data.stock_count[0] < data.productcount + 1 && AddProduct == true}"></i>
+                                                            </ng-template>
+                                                        </div>
+                                                        <button nzType="primary" nz-button nzBlock
+                                                            *ngIf="data.stock_available == true"
+                                                            (click)="addCart(data,i)"><span>{{"AddtoCart"|translate}}</span>
+                                                        </button>
+                                                        <button nzType="primary" nzBlock
+                                                            *ngIf="data.stock_available == false" nz-button
+                                                            disabled><span>{{"OutofStock"|translate}}</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nz-pagination [(nzPageIndex)]="index" [(nzPageSize)]="size" [nzTotal]="listOfData.length"
+            (nzPageIndexChange)="eventchange(index,size)"></nz-pagination>
+
+    </div>
+    <!-- <div class="container overflow-x">
+        <div class="row">
+            <div class="col-left sidebar col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <div class="inner-left">
+                    <div class="block block-layered-nav">
+                        <div class="block-title">
+                            <strong><span>Shop By</span></strong>
+                        </div>
+                        <dl id="narrow-by-list">
+                            <dt class="first">Category</dt>
+                            <dd>
+                                <nz-radio-group [(ngModel)]="categoryValue"
+                                    (ngModelChange)="productByCategory(categoryValue)" class="radio-block">
+                                    <label nz-radio nzValue="{{cate._id}}"
+                                        *ngFor="let cate of categoryList">{{cate.name}}</label>
+                                </nz-radio-group>
+                            </dd>
+                            <dt>Price</dt>
+                            <dd class="block-price">
+                                <div class="mt-3 pt-1">
+                                    <nz-slider nzRange [nzMin]="range[0]" [nzMax]="range[1]"
+                                        [nzTipFormatter]="formatter" [(ngModel)]="rangeValue"
+                                        (ngModelChange)="rangeSort(rangeValue)">
+                                    </nz-slider>
+                                </div>
+                                <div class="price">
+                                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                                        <input type="text" nz-input placeholder="€0.00" [(ngModel)]="sortValue"
+                                            (ngModelChange)="rangeSortValue(sortValue)" />
+                                    </nz-input-group>
+                                    <ng-template #suffixIconButton>
+                                        <button nz-button nzType="primary" nzSearch><i nz-icon
+                                                nzType="search"></i></button>
+                                    </ng-template>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-main col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                <div class="product-list-table">
+                    <nz-table #basicTable [nzData]="listOfData" [nzHideOnSinglePage]="true" [nzPageSize]="6">
+                        <tbody>
+                            <tr *ngFor="let data of basicTable.data;let i = index">
+                                <div id="catalog-listing">
+                                    <div class="category-products pro-list">
+                                        <ol class="products-list">
+                                            <li class="item d-flex w-100">
+                                                <div class="inner d-flex flex-wrap w-100">
+                                                    <div class="item-image">
+                                                        <div class="item-image-inner">
+                                                            <a class="product-image user-select-none"  *ngIf="isloggedin == 'true'">
+                                                                <img [src]="url+data.file[0].path"
+                                                                    routerLink="/product/{{data._id}}" alt="">
+                                                            </a>
+                                                            <a class="product-image user-select-none" *ngIf="isloggedin != 'true'">
+                                                                <img [src]="url+data.file[0].path" routerLink="/productview/{{data._id}}"
+                                                                    alt="">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <div class="product-item-block">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div
+                                                                    class="prdouct-details-info user-select-none flex-wrap">
+                                                                    <div class="product-name">
+                                                                        <a routerLink="/product/{{data._id}}"
+                                                                            class="mb-1">{{ data.name }}</a>
+                                                                    </div>
+                                                                    <nz-rate [ngModel]="data.ratings" nzAllowHalf
+                                                                        nzDisabled>
+                                                                    </nz-rate>
+                                                                    <p *ngIf="data.stock_available == true && data.stock_count < 10"
+                                                                        style="color: red">Hurry up! Only
+                                                                        {{data.stock_count}} left</p>
+                                                                    <div class="wrap-ns-price">
+                                                                        <div class="price-box">
+                                                                            <p class="special-price">
+                                                                                <span
+                                                                                    class="price">€{{ data.available_price[0] }}</span>
+                                                                                <del
+                                                                                    *ngIf="data.offer_percentage > 0">€{{data.price[0]}}</del>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="wrap-new-sale"
+                                                                            *ngIf="data.offer_percentage > 0">
+                                                                            <div class="sale-item">
+                                                                                {{data.offer_percentage}}%
+                                                                            </div>
+                                                                            <div class="new-item">off</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="position-relative product-add-cart">
+                                                                    <div class="box-qty-btncart">
+                                                                        <div class="mb-3">
+                                                                            <nz-input-group
+                                                                                [nzAddOnBefore]="addOnBeforeTemplate"
+                                                                                [nzAddOnAfter]="addOnAfterTemplate">
+                                                                                <input type="text" class="text-center"
+                                                                                    nz-input
+                                                                                    [(ngModel)]="data.productcount" />
+                                                                            </nz-input-group>
+                                                                            <ng-template #addOnBeforeTemplate>
+                                                                                <i nz-icon nzType="minus"
+                                                                                    nzTheme="outline"
+                                                                                    class="cursor-pointer"
+                                                                                    (click)="Removecount(i)"></i>
+                                                                            </ng-template>
+                                                                            <ng-template #addOnAfterTemplate>
+                                                                                <i nz-icon nzType="plus"
+                                                                                    nzTheme="outline"
+                                                                                    class="cursor-pointer"
+                                                                                    (click)="Addcount(i)"
+                                                                                    [ngClass]="{'a_disabled':data.stock_count < data.productcount + 1 && AddProduct == true}"></i>
+                                                                            </ng-template>
+                                                                          
+                                                                        </div>
+                                                                        <button nzType="primary" nz-button nzBlock
+                                                                            *ngIf="data.stock_available == true"
+                                                                            (click)="addCart(data,i)"><span>Add To
+                                                                                Cart</span></button>
+                                                                        <button nzType="primary" nzBlock
+                                                                            *ngIf="data.stock_available == false"
+                                                                            nz-button disabled><span>Out
+                                                                                of Stock</span></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-description user-select-none"
+                                                                *ngIf="isloggedin == 'true'">
+                                                                <div class="desc-info" class="mb-1">
+                                                                    <div [innerHTML]=data.description>
+                                                                    </div>
+                                                                </div>
+                                                                <button nz-button nzType="default" nzShape="circle"
+                                                                    class="wishlist-btn" (click)="addWish(data,i)"
+                                                                    *ngIf="data.iswishlisted == false">
+                                                                    <i nz-icon nzType="heart" nzTheme="outline"></i>
+                                                                </button>
+                                                                <button nz-button nzType="default" nzShape="circle"
+                                                                    class="wishlist-btn" (click)="removeWish(data,i)"
+                                                                    *ngIf="data.iswishlisted == true">
+                                                                    <i nz-icon nzType="heart" nzTheme="fill"
+                                                                        class="icon-filled"
+                                                                        *ngIf="data.iswishlisted == true"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+
+
+                </div>
+            </div>
+            <div class="col-right sidebar col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="inner-right">
+                    <div class="block block-pre-related vt-slider">
+                        <div class="slider-inner">
+                            <div class="block-title">
+                                <strong>
+                                    <span>Premium Related Products</span>
+                                </strong>
+                            </div>
+                            <div class="container-slider premium-related-card">
+                              
+                                <div>
+                                    <div nz-carousel-content>
+                                        <div class="wrap-item products-grid"
+                                            *ngFor="let list of carouselProduct;let i = index">
+                                            <div class="item" *ngIf="i < 3">
+                                                <div class="inner">
+                                                    <div class="item-image">
+                                                        <div class="item-image-inner">
+                                                            <a class="product-image" routerLink="/product/{{list._id}}">
+                                                                <img [src]="url+list.file[0].path" alt="">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <div class="product-name">
+                                                            <a routerLink="/product/{{list._id}}">{{list.name}}</a>
+                                                        </div>
+                                                        <div class="cate-name">
+                                                            <a>{{list.type}}</a>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <nz-rate [ngModel]="2.5" nzAllowHalf nzDisabled>
+                                                            </nz-rate>
+                                                        </div>
+                                                        <div class="wrap-ns-price">
+                                                            <div class="price-box">
+                                                                <p class="special-price">
+                                                                    <span
+                                                                        class="price">€{{list.available_price[0]}}</span>
+                                                                </p>
+                                                                <p class="old-price">
+                                                                    <span class="price">€{{list.price[0]}}</span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="wrap-new-sale">
+                                                                <div class="sale-item">
+                                                                    {{list.offer_percentage}}%</div>
+                                                                <div class="new-item">new</div>
+                                                            </div>
+                                                        </div>
+                                                           <button class="btn-cart"
+                                                            (click)="addPremiumCart(list,i)"><span>Add To
+                                                                Cart</span></button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+<app-landing-footer></app-landing-footer>

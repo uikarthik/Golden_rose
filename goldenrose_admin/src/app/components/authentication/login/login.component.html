@@ -1,0 +1,37 @@
+<div nz-row nzGutter="32">
+	<div nz-col nzXs="0" nzSm="0" nzMd="0" nzLg="9" nzXl="9">
+		<div class="auth-bg vh-100"></div>
+	</div>
+	<div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="15" nzXl="15">
+		<div class="d-flex flex-column align-content-center justify-content-between vh-100 auth-block">
+			<div>
+				<h2 class="mb-1">{{"Welcome" | translate}}</h2>
+				<p class="text-muted">{{"Logininfo" | translate}}</p>
+				<form nz-form [formGroup]="validateForm" class="auth-form" (ngSubmit)="login()">
+					<nz-form-item>
+						<nz-form-control nzErrorTip="{{'Ucon1' | translate}}!">
+							<nz-form-label>{{"Emailaddress" | translate}}</nz-form-label>
+							<input type="email" nz-input formControlName="email" placeholder="name@example.com"
+								email="true" />
+						</nz-form-control>
+					</nz-form-item>
+					<nz-form-item>
+						<nz-form-control nzErrorTip="{{'Enterpassword' | translate}}!">
+							<input type="password" nz-input formControlName="password" placeholder="Password" />
+						</nz-form-control>
+					</nz-form-item>
+					<nz-form-item>
+						<nz-form-control>
+							<a routerLink="/auth/forgot" class="float-right">{{"Forgotpassword" | translate}}?</a>
+							<button nz-button class="login-form-button w-100 mt-3" [nzLoading]="editLoading"
+								[nzType]="'primary'">{{"Login" | translate}}</button>
+						</nz-form-control> 
+					</nz-form-item>
+				</form>
+			</div>
+			<div>
+				<div class="text-muted d-inline-block mr-3">© {{currentYear}} Goldenrose. All rights reserved.</div>
+			</div>
+		</div>
+	</div>
+</div>

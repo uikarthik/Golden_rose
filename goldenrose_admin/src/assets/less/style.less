@@ -1,0 +1,175 @@
+@import "~ng-zorro-antd/ng-zorro-antd.less";
+@import "./font.less";
+@import "./variable.less";
+@import "./custom.less";
+
+body {
+    font-family: @myfont;
+    letter-spacing: -0.3px;
+    font-weight: 500;
+    overflow-x: hidden;
+    user-select: none;
+}
+
+h4 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.bg-primary {
+    background-color: @primary-color;
+}
+
+.text-danger {
+    color: @red-color;
+}
+
+.text-success {
+    color: @green-color;
+}
+
+.text-body {
+    color: @text-color  !important;
+}
+
+.success {
+    color: @green-color;
+}
+
+.fail {
+    color: @red-color;
+}
+
+.ant-layout-content {
+    padding: 24px;
+}
+
+.inner-content {
+    padding: 24px;
+    background: @white-color;
+    min-height: 360px;
+}
+
+.table-block {
+    background: @white-color;
+    border-radius: @border-radius;
+}
+
+.ant-table-pagination.ant-pagination {
+    margin: 16px;
+    white-space: normal;
+}
+
+.ant-table-pagination {
+    li {
+        @media screen and (max-width:460px) {
+            margin-bottom: 12px;
+        }
+    }
+}
+
+.ant-table-wrapper {
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.card-p-0 {
+    .ant-card-body {
+        padding: 0px !important;
+    }
+
+}
+
+.ant-table-thead>tr>th:first-child,
+.ant-table-tbody>tr>td:first-child {
+    padding-left: 24px;
+}
+
+.ant-table-tbody {
+    &>tr {
+        &>th:first-child {
+            padding-left: 24px;
+        }
+    }
+}
+
+// Font and Fontfamily 
+.ant-statistic-content {
+    font-family: @myfont  !important;
+}
+
+.ant-statistic-title {
+    margin-bottom: 12px;
+}
+
+// Forms & Button
+.ant-btn-sm {
+    height: 38px;
+    line-height: 38px;
+    padding: 0px 15px;
+    font-size: 12.5px;
+}
+
+.ant-input,
+.ant-btn {
+    border-radius: 4px;
+}
+
+.ant-btn-circle {
+    min-height: auto;
+    border-radius: 50% !important;
+}
+
+.ant-form {
+
+    .ant-input,
+    .ant-btn,
+    .ant-select-selection,
+    .ant-select-selection__rendered,
+    .ant-select-selection-selected-value {
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    /deep/.ant-form-explain {
+        margin-top: 2px;
+    }
+
+}
+
+button.ant-btn.ng-star-inserted.ant-btn-default.ant-btn-icon-only {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.ant-card {
+    border-radius: @border-radius  !important;
+}
+
+
+.user-avatar {
+    background: @primary-color;
+    color: @white-color;
+}
+
+@media (max-width :767px) {
+
+    .ant-layout-content {
+        padding: 15px;
+    }
+
+    .ant-tabs-nav-wrap {
+        padding: 0px;
+    }
+
+    .ant-table-pagination.ant-pagination {
+        width: 100%;
+        float: unset;
+        white-space: normal;
+    }
+}

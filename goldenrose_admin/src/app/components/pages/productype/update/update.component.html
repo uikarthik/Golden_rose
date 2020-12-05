@@ -1,0 +1,67 @@
+<main>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">{{"editType" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/Typelist']">{{"TypeList" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"editType" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form [formGroup]="validateForm" class="login-form">
+                    <nz-form-item>
+                        <nz-form-control [nzErrorTip]="CategoryErr">
+                            <nz-form-label nzFor="categoryName">{{"TyName" | translate}}</nz-form-label>
+                            <!-- <input nzSize="large" type="text" nz-input formControlName="categoryName"
+                                placeholder="MEN" [(ngModel)]="categoryname" /> -->
+                                <nz-select [(ngModel)]="categoryname"  formControlName="categoryName"
+                                nzPlaceHolder="Choose">
+                                <nz-option nzValue="{{'Women' | translate}}" nzLabel="WOMEN"></nz-option>
+                                <nz-option nzValue="{{'MEN' | translate}}" nzLabel="MEN"></nz-option>
+                                <nz-option nzValue="{{'COMMUNION' | translate}}" nzLabel="COMMUNION"></nz-option>
+                                <nz-option nzValue="{{'Babyborn' | translate}}" nzLabel="BABYBORN"></nz-option>
+                             </nz-select>
+                                <ng-template #CategoryErr let-control>
+                                    <ng-container *ngIf="control.hasError('required')">
+                                        {{"EnterTypeName" | translate}}
+                                    </ng-container>
+                                </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                   
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-form-label nzFor="categoryImage">{{"TypeImg" | translate}}</nz-form-label>
+                            <!-- <div class="clearfix">
+                                <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                    nzListType="picture" [(nzFileList)]="fileList">
+                                    <button nz-button><i nz-icon nzType="upload"></i>Upload Image</button>
+                                </nz-upload>
+                            </div> -->
+                            <img [src]="Imgurl" height="200" width="200" *ngIf="url != ''"> 
+                            <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0" type="file"
+                                class="post-file--img" (change)="onFileChange($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-form-label nzFor="categoryImage">{{"HeaderImage" | translate}}</nz-form-label>
+                            
+                            <img [src]="HeaderImgurl" height="200" width="200" *ngIf="url != ''"> 
+                            <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0" type="file"
+                                class="post-file--img" (change)="onFileChangeHeaderImg($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="validateForm.invalid" [nzLoading]="editLoading" (click)="submitForm()">Submit</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+</main>

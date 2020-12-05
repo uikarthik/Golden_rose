@@ -1,0 +1,229 @@
+<main class="main-section">
+    <h4>{{"ProfileSet" | translate}}</h4>
+    <nz-card [nzBordered]="false">
+        <nz-tabset [nzSelectedIndex]="0" nzAnimated="false">
+            <nz-tab nzTitle="{{'MyPro' | translate}}">
+                <div class="py-4 profile-details">
+                    <div nz-row [nzGutter]="32">
+                        <div nz-col nzSpan="12" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="mb-4">
+                            <nz-avatar nzText="{{adminDetais.user_name[0] | titlecase}}" [nzSize]="64"
+                                class="user-avatar float-left text-large mb-3">
+                            </nz-avatar>
+                            <div class="id-info float-left ml-sm-4 ml-2">
+                                <div class="user-name">
+                                    <h4 class="mb-2 text-capitalize">{{adminDetais.user_name | titlecase }}</h4>
+                                </div>
+                                <div class="user-email">
+                                    <div class="mb-2">{{"Email" | translate}}:&nbsp;{{adminDetais.email}}</div>
+                                </div>
+                                <div class="user-email">
+                                    <div class="mb-2">{{"Uname" | translate}}:&nbsp;{{adminDetais.user_name}}</div>
+                                </div>
+                                <div class="text-muted">
+                                    <p class="mb-2">{{"LLogin" | translate}}:&nbsp;{{lastLogin | date:"medium"}}</p>
+                                </div>
+                                <div class="text-muted">
+                                    <p class="mb-2">{{"IP" | translate}}:&nbsp;{{lastIp}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="{{'Security' | translate}}">
+                <div class="py-4">
+                    <h4 class="border-bottom pb-10 mb-4">{{"2FAuth" | translate}}</h4>
+                    <div nz-row [nzGutter]="24" class="mb-4">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="16" nzXl="12"
+                            class="d-flex align-items-sm-center flex-sm-row flex-column">
+                            <div class="d-flex flex-grow-1">
+                                <img src="assets/img/png/2fa.png" alt="2-Factor" height="42">
+                                <div class="ml-2 pl-1">
+                                    <h6 class="mb-1">{{"GAuth" | translate}}</h6>
+                                    <p class="text-muted">{{"GAuthDesc" | translate}}</p>
+                                </div>
+                            </div>
+                            <div *ngIf="!adminDetais.tfa_active">
+                                <button nz-button nzType="primary" class="mt-2"
+                                    (click)="twoFactorEnable()"><span>{{'Enabled' | translate}}</span>
+                                </button>
+                            </div>
+                            <div *ngIf="adminDetais.tfa_active">
+                                <button nz-button nzType="default" class="mt-2"
+                                    (click)="twoFactorDisable()"><span>{{"Disable" | translate}}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="border-bottom pb-10 mb-4">{{"ChangePass" | translate}}</h4>
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()"
+                                class="personal-detail-form">
+                                <nz-form-item>
+                                    <nz-form-control nzErrorTip="{{'EnterOldPass' | translate}}">
+                                        <nz-form-label nzFor="oldpassword">{{"OldPass" | translate}}
+                                        </nz-form-label>
+                                        <nz-input-group [nzSuffix]="suffixOld">
+                                            <input formControlName="oldpassword" nzSize="large"
+                                                [type]="passwordVisibleOld ? 'text' : 'password'" nz-input
+                                                placeholder="Old Password" [(ngModel)]="passwordOld" />
+                                        </nz-input-group>
+                                        <ng-template #suffixOld>
+                                            <i nz-icon [nzType]="passwordVisibleOld ? 'eye-invisible' : 'eye'"
+                                                (click)="passwordVisibleOld = !passwordVisibleOld"></i>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control [nzErrorTip]="combineTpl">
+                                        <nz-form-label nzFor="newpassword">{{"NewPass" | translate}}
+                                        </nz-form-label>
+                                        <nz-input-group [nzSuffix]="suffixNew">
+                                            <input formControlName="newpassword" nzSize="large"
+                                                [type]="passwordVisibleNew ? 'text' : 'password'" nz-input
+                                                placeholder="New Password" [(ngModel)]="passwordNew" />
+                                        </nz-input-group>
+                                        <ng-template #suffixNew>
+                                            <i nz-icon [nzType]="passwordVisibleNew ? 'eye-invisible' : 'eye'"
+                                                (click)="passwordVisibleNew = !passwordVisibleNew"></i>
+                                        </ng-template>
+                                        <ng-template #combineTpl let-control>
+                                            <ng-container *ngIf="control.hasError('patternValidity')">
+                                               {{"PassValid" | translate}}</ng-container>
+                                            <ng-container *ngIf="control.hasError('errorValidity')">
+                                               {{"CompareValid" | translate}}</ng-container>
+                                            <ng-container *ngIf="control.hasError('required')">{{"PassRequired" | translate}}
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control [nzErrorTip]="errorTpl">
+                                        <nz-form-label nzFor="confirmpassword">{{"ConfirmPassEnter" | translate}}
+                                        </nz-form-label>
+                                        <nz-input-group [nzSuffix]="suffixConfirm">
+                                            <input formControlName="confirmpassword" nzSize="large"
+                                                [type]="passwordVisibleConfirm ? 'text' : 'password'" nz-input
+                                                placeholder="Confirm Password" [(ngModel)]="passwordConfirm" />
+                                        </nz-input-group>
+                                        <ng-template #suffixConfirm>
+                                            <i nz-icon [nzType]="passwordVisibleConfirm ? 'eye-invisible' : 'eye'"
+                                                (click)="passwordVisibleConfirm = !passwordVisibleConfirm"></i>
+                                        </ng-template>
+                                        <ng-template #errorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                              {{"ConfirmPassEnter" | translate}}
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('confirm')">
+                                                {{"PassInconsist" | translate}}
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <div class="mt-4">
+                                    <button nz-button nzType="primary" type="submit" [disabled]="validateForm.invalid"
+                                        [nzLoading]="editLoading" nzSize="large">{{"Update" | translate}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="{{'AccActivity' | translate}}" id="admin_activity">
+                <div class="py-4">
+                    <h4 class="border-bottom pb-10 mb-2">{{"AccActivity" | translate}}</h4>
+                    <nz-table #activityTable [nzData]="adminactivity" [nzBordered]="false" class="table-fixed">
+                        <thead>
+                            <tr>
+                                <th>{{"Date" | translate}}</th>
+                                <th>{{"Action" | translate}}</th>
+                                <th>{{"IP" | translate}}</th>
+                                <th>{{"Location" | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of activityTable.data">
+                                <td>{{ data.createdAt | date:"medium"}}</td>
+                                <td>{{data.text}}</td>
+                                <td>{{data.ip }}</td>
+                                <td>{{data.location }}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+    <!-- Modal for 2FA(disable) -- Starts -->
+    <nz-modal [(nzVisible)]="isDisableAuth" nzTitle="{{'DisableAuth' | translate}}" (nzOnCancel)="handelDisableAuth()"
+        (nzOnOk)="DisableG2F()">
+        <div class="my-2">
+            <form>
+                <div class="text-left">
+                    <p class="text-muted">{{"Enter2FCode" | translate}}</p>
+                    <ng-otp-input (onInputChange)="onOtpChange($event , 0)" [config]="{length:6}"></ng-otp-input>
+
+                </div>
+            </form>
+        </div>
+    </nz-modal>
+    <!-- Modal for 2FA(disable) -- Ends -->
+</main>
+<!-- Modal for 2FA(enable) -- Starts -->
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Enable Google Authentication" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()" [nzFooter]="twofactorFooter">
+    <div>
+        <ol class="pl-3">
+            <li>{{"GoogleFrom" | translate}} <a href="https://apps.apple.com/us/app/google-authenticator/id388497605"
+                    target="_blank">App
+                    Store</a> or <a
+                    href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2"
+                    target="_blank">Play Store</a> and set up an
+                account.</li>
+            <li>{{"ScanQR" | translate}}
+                <div nz-row [nzGutter]="8" nzType="flex" nzAlign="middle">
+                    <div nz-col nzSpan="12" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="9">
+                        <div class="qrcode-container text-center text-lg-left">
+                            <img src="{{g2fQrCode}}" alt="qrcode" width="160" height="160" draggable="false"
+                                class="my-2">
+                        </div>
+                    </div>
+                    <div nz-col nzSpan="12" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="15">
+                        <p class="body-text">{{"Backupkey" | translate}}</p>
+                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                            <input type="text" nz-input value="{{g2fSecretKey}}" readonly />
+                        </nz-input-group>
+                        <ng-template #suffixIconButton>
+                            <button nz-button nz-tooltip nzTooltipTitle="Copy" [ngxClipboard]="g2fKey">
+                                <i nz-icon nzType="copy"></i>
+                            </button>
+                        </ng-template>
+                        <p class="body-text mt-2">{{"BackupkeyNote" | translate}}</p>
+                    </div>
+                </div>
+            </li>
+            <li>{{"Backup3" | translate}}</li>
+        </ol>
+        <div class="my-2">
+            <form>
+                <div class="text-left">
+                    <p class="text-muted">{{"Enter2FA" | translate}}</p>
+                    <nz-form-control nzSpan="24">
+                        <ng-otp-input (onInputChange)="onOtpChange($event, 1)" [config]="{length:6}"></ng-otp-input>
+                    </nz-form-control>
+                </div>
+            </form>
+        </div>
+    </div>
+    <ng-template #twofactorFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">{{"Cancel" | translate}}
+        </button>
+        <button nz-button nzType="primary" (click)='EnableG2F()'>{{"Enable" | translate}}
+        </button>
+    </ng-template>
+</nz-modal>
+
+
+
+<!-- Modal for 2FA(enable) -- Ends -->

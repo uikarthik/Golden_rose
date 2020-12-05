@@ -1,0 +1,114 @@
+<aside class="aside-nav">
+    <div class="logo">
+        <img [src]="url+logoImg" alt="golden rosse" draggable="false" height="46">
+    </div>
+    <ul nz-menu nzMode="inline" class="sider-menu border-right-0">
+        <li>
+            <a nz-menu-item routerLink="/dashboard" routerLinkActive="active">
+                <i nz-icon nzType="layout" nzTheme="outline"></i>
+                <span>{{"Dashboard" | translate}}</span>
+            </a>
+        </li>
+        <li nz-submenu nzTitle="{{'Category' | translate}}" nzIcon="unordered-list">
+            <ul>
+                <li nz-menu-item routerLink="/category/list" routerLinkActive="active">
+                    {{"CatList" | translate}}
+                </li>
+                <li nz-menu-item routerLink="/category/add" routerLinkActive="active">
+                   {{"addCat" | translate}}
+                </li>
+            </ul>
+        </li>
+        <li nz-submenu nzTitle="{{'Type' | translate}}" nzIcon="tags">
+            <ul>
+                <li nz-menu-item routerLink="/Typelist" routerLinkActive="active">
+                    {{"TypeList" | translate}}
+                </li>
+                <li nz-menu-item routerLink="/Type" routerLinkActive="active">
+                  {{"AddType" | translate}}
+                </li>
+            </ul>
+        </li>
+        <li nz-submenu nzTitle="{{'Subtype' | translate}}" nzIcon="pie-chart">
+            <ul>
+                <li nz-menu-item routerLink="/subtypeList" routerLinkActive="active">
+                    {{"SubList" | translate}}
+                </li>
+                <li nz-menu-item routerLink="/subType" routerLinkActive="active">
+                    {{"AddSub" | translate}}
+                </li>
+            </ul>
+        </li>
+        <li nz-submenu nzTitle="{{'Product' | translate}}" nzIcon="shopping">
+            <ul>
+                <li nz-menu-item routerLink="/product/list" routerLinkActive="active">
+                   {{"PL" | translate}}
+                </li>
+                <li nz-menu-item routerLink="/product/add" routerLinkActive="active">
+                   {{"AddProduct" | translate}}
+                </li>
+                <li nz-menu-item routerLink="/product/uploadfile" routerLinkActive="active">
+                   {{"ImportFile" | translate}}
+                </li>
+            </ul>
+        </li>
+        <li nz-submenu nzTitle="{{'User' | translate}}" nzIcon="user">
+            <ul>
+                <li nz-menu-item routerLink="/user/list" routerLinkActive="active">
+                    {{"UserList" | translate}}
+                </li>
+                <li nz-menu-item routerLink="/user/add" routerLinkActive="active">
+                    {{"AddUser" | translate}}
+                </li>
+            </ul>
+        </li>
+        <li nz-menu-item routerLink="/orders">
+            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+            <span>{{"Order" | translate}}</span>
+        </li>
+        <li nz-menu-item routerLink="/coupon">
+            <i nz-icon nzType="percentage" nzTheme="outline"></i>
+            <span>{{"Coupon" | translate}}</span>
+        </li>
+        <li nz-submenu nzTitle="{{'notify' | translate}}" nzIcon="notification">
+            <ul>
+                <li nz-menu-item routerLink="/notification/list" routerLinkActive="active">
+                    {{"List" | translate}}
+                </li>
+                <li nz-menu-item routerLink="/notification/add" routerLinkActive="active">
+                    {{"Create" | translate}}
+                </li>
+            </ul>
+        </li>
+        <!-- <li nz-menu-item routerLink="/landingimage">
+            <i nz-icon nzType="camera" nzTheme="outline"></i>
+            <span>Image Upload</span>
+        </li> -->
+        <li nz-menu-item routerLink="/locale">
+            <i nz-icon nzType="global" nzTheme="outline"></i>
+            <span>{{"Locale" | translate}}</span>
+        </li>
+        <li nz-submenu nzTitle="{{'Settings' | translate}}" nzIcon="setting">
+            <ul>
+                <li nz-menu-item routerLink="/settings/profile" routerLinkActive="active">{{"ProfileSet" | translate}}</li>
+                <li nz-menu-item routerLink="/settings/site" routerLinkActive="active">{{"SiteSetting" | translate}}</li>
+                <!-- <li nz-menu-item routerLink="/environment" routerLinkActive="active">{{"Environment" | translate}}</li> -->
+            </ul>
+        </li>
+        <li>
+            <nz-divider class="my-2"></nz-divider>
+        </li>
+        <!-- <li>
+            <a routerLink="/errorlog" nz-menu-item>
+                <i nz-icon nzType="question" nzTheme="outline"></i>
+                <span>{{"ErrLog" | translate}}</span>
+            </a>
+        </li> -->
+        <li>
+            <a nz-menu-item (click)="LogOut()">
+                <i nz-icon nzType="logout" nzTheme="outline"></i>
+                <span>{{"Logout" | translate}}</span>
+            </a>
+        </li>
+    </ul>
+</aside>

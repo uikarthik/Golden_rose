@@ -1,0 +1,138 @@
+<main>
+    <div class="d-flex flex-wrap flex-sm-row flex-column align-items-sm-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1 mb-3">{{"PL" | translate}}</h4>
+        <div class="d-flex align-items-sm-center flex-sm-row flex-column-reverse">
+            <div class="mr-sm-3 mt-sm-0 mt-3">
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                    <input type="text" nz-input placeholder="{{'Search' | translate}}" [(ngModel)]="searchValue"
+                        (ngModelChange)="Search()" [ngModelOptions]="{standalone: true}" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                </ng-template>
+            </div>
+            <div>
+                <a routerLink="/product/add" nz-button nzSize="small" nzType="primary">
+                    <i nz-icon nzType="plus"></i>{{"AddProduct" | translate}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="table-block">
+        <nz-table #basicTable [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th>{{"SNO" | translate}}</th>
+                    <th>{{"Product" | translate}}</th>
+                    <th>{{"Category" | translate}}</th>
+                    <th>{{"Addate" | translate}}</th>
+                    <th>{{"Price" | translate}}</th>
+                    <th>{{"Discount" | translate}}</th>
+                    <th>{{"Quantity" | translate}}</th>
+                    <th>{{"Availability" | translate}}</th>
+                    <th>{{"Status" | translate}}</th>
+                    <th>{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data;let i = index">
+                    <td>{{10*basicTable.nzPageIndex+( i + 1) - 10}}</td>
+                    <td>
+                        <div class="top-product">
+                            <div class="top-product-img">
+                                <img *ngIf="data.imagelist.length > 0" [src]="url+data.imagelist[0]['path']"
+                                    class="cusimg">
+                                <!-- <img [src]="url+data.file[0].path" alt="airpod" draggable="false"> -->
+                            </div>
+                            <div class="product-name">
+                                <div>{{data.productname}}</div>
+                                <nz-rate [ngModel]="data.rating" nzDisabled></nz-rate>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            {{ data.category_name }}
+                        </div>
+                    </td>
+                    <td>{{ data.addeddate | date }}</td>
+                    <td>${{ data.price[0] }}</td>
+                    <td>{{ data.offer_percentage }} %</td>
+                    <td>{{ data.quantity }}</td>
+                    <td>
+                        <nz-tag [nzColor]="'green'" *ngIf="data.availability == true">
+                            <span>{{"Istock" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'red'" *ngIf="data.availability == false">
+                            <span>{{"Ostock" | translate}}</span>
+                        </nz-tag>
+                    </td>
+                    <td>
+                        <nz-tag [nzColor]="'green'" *ngIf="data.status == true">
+                            <span>{{"True" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'red'" *ngIf="data.status == false">
+                            <span>{{"False" | translate}}</span>
+                        </nz-tag>
+                    </td>
+                    <td>
+                        <a routerLink="/product/view/{{data.product_id}}" title="View!" nz-button nzType="default"
+                            nzShape="circle">
+                            <i nz-icon nzType="eye"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a routerLink="/product/edit/{{data.product_id}}" title="Edit!" nz-button nzType="default"
+                            nzShape="circle">
+                            <i nz-icon nzType="edit"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default" nzShape="circle" *ngIf="data.status == false"
+                            data-toggle="tooltip" title="Enable!" (click)="enableProduct(data)">
+                            <i nz-icon nzType="file-protect" [nzTwotoneColor]="'#ff1000'"></i>
+                        </button>
+                        <button nz-button nzType="default" nzShape="circle" *ngIf="data.status == true"
+                            data-toggle="tooltip" title="Disable!" (click)="enableProduct(data)">
+                            <i nz-icon nzType="disconnect"></i>
+                        </button>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default" nzShape="circle" title="Delete!" (click)="delete(data,i)">
+                            <i nz-icon nzType="delete"></i>
+                        </button>
+                    </td>
+                </tr>
+                <!-- <tr *ngFor="let data of basicTable.data">
+                    <td>1</td>
+                    <td>
+                        <div class="top-product">
+                            <div class="top-product-img">
+                                <img src="{{data.productImg}}" alt="airpod" draggable="false">
+                            </div>
+                            <div class="product-name">
+                                <div>{{data.productName}}</div>
+                                <nz-rate [ngModel]="data.productRating" nzDisabled></nz-rate>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ data.category }}</td>
+                    <td>{{ data.addedDate }}</td>
+                    <td>${{ data.price }}</td>
+                    <td>0</td>
+                    <td>
+                        <nz-tag [nzColor]="'red'">
+                            <span>Out of Stock</span>
+                        </nz-tag>
+                    </td>
+                    <td>
+                        <a routerLink="/product/view" nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="eye"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a routerLink="/product/edit" nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="edit"></i>
+                        </a>
+                    </td>
+                </tr> -->
+            </tbody>
+        </nz-table>
+    </div>
+</main>

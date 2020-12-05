@@ -1,0 +1,55 @@
+<main>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">{{"notify" | translate}}</h4>
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="{{'EnterTitle' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"Title" | translate}}</nz-form-label>
+                            <input nzSize="large" type="text" nz-input formControlName="title" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="{{'EnterUserType' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"UserType" | translate}}</nz-form-label>
+                            <nz-select nzSize="large" formControlName="selectUser" nzShowSearch nzAllowClear
+                                [(ngModel)]="selectedUser">
+                                <nz-option nzLabel="{{'All' | translate}}" nzValue="ALL"></nz-option>
+                                <nz-option nzLabel="{{'Customuser' | translate}}" nzValue="CUSTOM-USER"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item *ngIf="selectedUser == 'CUSTOM-USER'">
+                        <nz-form-control nzErrorTip="{{'SelectCust' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"Customuser" | translate}}</nz-form-label>
+                            <nz-select [(ngModel)]="tagValue" nzSize="large" formControlName="customUser" nzMode="tags">
+                                <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
+                                    [nzValue]="option.label"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="{{'EnterNotiType' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"NotiType" | translate}}</nz-form-label>
+                            <nz-select nzSize="large" formControlName="notificationType" nzShowSearch nzAllowClear
+                                [(ngModel)]="selectedMail">
+                                <nz-option nzLabel="Push" nzValue="PUSH"></nz-option>
+                                <nz-option nzLabel="{{'Mail' | translate}}" nzValue="MAIL"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="{{'EnterMsg' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"Message" | translate}}</nz-form-label>
+                            <textarea rows="4" nz-input formControlName="message"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="validateForm.invalid" [nzLoading]="editLoading">{{"SendNotify" | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+</main>

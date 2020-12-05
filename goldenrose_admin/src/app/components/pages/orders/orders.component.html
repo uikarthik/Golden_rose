@@ -1,0 +1,114 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1">{{"Order" | translate}}</h4>
+        <nz-select [(ngModel)]="status" (ngModelChange)="changeStatus(status)" nzPlaceHolder="Choose" class="mr-5">
+            <nz-option nzValue="ORDERED" nzLabel="ORDERED" class="text-capitalize"></nz-option>
+            <nz-option nzValue="PACKED" nzLabel="PACKED" class="text-capitalize"></nz-option>
+            <nz-option nzValue="SHIPPED" nzLabel="SHIPPED" class="text-capitalize"></nz-option>
+            <nz-option nzValue="DELIVERED" nzLabel="DELIVERED" class="text-capitalize"></nz-option>
+            <nz-option nzValue="ALL" nzLabel="ALL" class="text-capitalize"></nz-option>
+        </nz-select>
+        <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input-group">
+            <input type="text" nz-input placeholder="{{'SearchOrder' | translate}}" [(ngModel)]="searchValue"
+                (ngModelChange)="Search()" [ngModelOptions]="{standalone: true}" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+        </ng-template>
+    </div>
+    <nz-card [nzBordered]="true" class="mb-4 card-p-0">
+        <nz-table #recentOrderTable [nzData]="RecentOrder">
+            <thead>
+                <tr>
+                    <th>{{"OrderId" | translate}}</th>
+                    <th>{{"Date" | translate}}</th>
+                    <th>{{"PayStatus" | translate}}</th>
+                    <th>{{"Amount" | translate}}</th>
+                    <th>{{"PayType" | translate}}</th>
+                    <th>{{"Status" | translate}}</th>
+                    <th>{{"User" | translate}}</th>
+                    <th class="text-center">{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of recentOrderTable.data; let i = index">
+                    <td class="text-info">{{ data.tx_id }}</td>
+                    <td>{{ data.createdAt | date }}</td>
+                    <td>
+                        <nz-tag [nzColor]="'green'" *ngIf="data.payment_status == 1">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"Paid" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'red'" *ngIf="data.payment_status == 0">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"unPaid" | translate}}</span>
+                        </nz-tag>
+                    </td>
+                    <td>€{{ data.amount_paid }}</td>
+                    <td>{{data.paid_through}}</td>
+                    <td>
+                        <nz-tag [nzColor]="'blue'" *ngIf="data.order_status == 'SHIPPED'">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"Shipped" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'violet'" *ngIf="data.order_status == 'PACKED'">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"Packed" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'orange'" *ngIf="data.order_status == 'ORDERED'">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"OrderPlaced" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'green'" *ngIf="data.order_status == 'DELIVERED'">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"Delivered"}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'red'" *ngIf="data.order_status == 'RETURNED'">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"Returned" | translate}}</span>
+                        </nz-tag>
+                        <nz-tag [nzColor]="'brown'" *ngIf="data.order_status == 'CANCELLED'">
+                            <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                            <span>{{"Cancelled" | translate}}</span>
+                        </nz-tag>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <nz-avatar class="mr-2" nzText="{{data.address.user_name| slice:0:1}}">
+                            </nz-avatar>
+                            <div>{{ data.address.user_name }}</div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <a routerLink="/details/{{data._id}}" nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="eye"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default" nzShape="circle" (click)="editOrder(data,data.order_status)">
+                            <i nz-icon nzType="edit"></i>
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </nz-table>
+    </nz-card>
+</main>
+<nz-modal [(nzVisible)]="isOrder" nzTitle="Change order status" (nzOnCancel)="isOrder = false"
+    (nzOnOk)="isOrder = false" [nzFooter]="null">
+    <form nz-form>
+        <nz-select [(ngModel)]="orderStatus" [ngModelOptions]="{standalone: true}" style="width:100%">
+            <nz-option nzValue="ORDERED" nzLabel="{{'OrderPlaced' | translate}}"></nz-option>
+            <nz-option nzValue="PACKED" nzLabel="{{'Packed' | translate}}"></nz-option>
+            <nz-option nzValue="SHIPPED" nzLabel="{{'Shipped' | translate}}"></nz-option>
+            <nz-option nzValue="DELIVERED" nzLabel="{{'Delivered' | translate}}"></nz-option>
+            <!--  <nz-option nzValue="RETURN" nzLabel="Return"></nz-option>
+        <nz-option nzValue="RETURNED" nzLabel="Returned"></nz-option>
+        <nz-option nzValue="CANCELLED" nzLabel="Cancelled"></nz-option> -->
+        </nz-select>
+        <div class="text-right mt-4 pt-2">
+            <button nz-button nzType="default" (click)="isOrder = false" class="mr-2">{{"Cancel" | translate}}</button>
+            <button nz-button nzType="primary" (click)="updateStatus()">{{"Send" | translate}}</button>
+        </div>
+    </form>
+</nz-modal>

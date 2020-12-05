@@ -1,0 +1,61 @@
+<main class="mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">{{"Lkeylist" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/locale']">{{"Locale" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"LSymbol" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+        <button nz-button nzSize="small" nzType="primary" (click)="showModal()"><i nz-icon nzType="plus"></i>{{"AddKey" | translate}}</button>
+    </div>
+    <div class="table-block">
+        <nz-table #basicTable [nzData]="listOfData" nzShowSizeChanger nzPageSize="10"
+            [nzPageSizeOptions]="[10,20,30,40,50]">
+            <thead>
+                <tr>
+                    <th>{{"SNO" | translate}}</th>
+                    <th>{{"Key" | translate}}</th>
+                    <th>{{"Word" | translate}}</th>
+                    <th>{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data ; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td> {{data.key}}</td>
+                    <td>{{data.word}}</td>
+                    <td> <button nz-button nzType="default" nzShape="circle" (click)="showModal(); EditData(data)">
+                        <i nz-icon nzType="edit"></i>
+                    </button></td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+
+    <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Key" (nzOnCancel)="handleCancel()" (nzOnOk)="LocaleAddKey()"
+        [nzOkLoading]="isOkLoading">
+        <nz-card [nzBordered]="false">
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="LocaleAddKey()">
+                        <nz-form-item>
+                            <nz-form-label nzFor="key">{{"Key" | translate}}</nz-form-label>
+                            <nz-form-control nzErrorTip="{{'EnterKey' | translate}}">
+                                <input nz-input nzSize="large" formControlName="key" id="key" [(ngModel)]="FAQKey" [disabled]="isEdit"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label nzFor="word">{{"Word" | translate}}</nz-form-label>
+                            <nz-form-control nzErrorTip="{{'EnterWord' | translate}}">
+                                <input nz-input nzSize="large" formControlName="word" id="word" [(ngModel)]="FAQWord" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </form>
+                </div>
+            </div>
+        </nz-card>
+    </nz-modal>
+</main>

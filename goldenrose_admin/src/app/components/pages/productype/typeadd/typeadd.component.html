@@ -1,0 +1,65 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0">{{"AddType" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/Typelist']">{{"Type" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"AddType" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form [formGroup]="validateForm" class="login-form">
+                    <nz-form-item>
+                        <nz-form-control [nzErrorTip]="CategoryErr">
+                            <nz-form-label nzFor="categoryName">{{"TyName" | translate}}</nz-form-label>
+                                 <nz-select   formControlName="categoryName"
+                                nzPlaceHolder="Choose">
+                                <nz-option nzValue="WOMEN" nzLabel="{{'Women' | translate}}"></nz-option>
+                                <nz-option nzValue="MEN" nzLabel="{{'Men' | translate}}"></nz-option>
+                                <nz-option nzValue="COMMUNION" nzLabel="{{'Communion' | translate}}"></nz-option>
+                                <nz-option nzValue="BABYBORN" nzLabel="{{'Babyborn' | translate}}"></nz-option>
+                             </nz-select>
+                                <ng-template #CategoryErr let-control>
+                                    <ng-container *ngIf="control.hasError('required')">
+                                       {{"EnterTypeName" | translate}}
+                                    </ng-container>
+                                </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                  
+                     <nz-form-item>
+                        <nz-form-control>
+                            <nz-form-label nzFor="categoryImage">{{"TypeImg" | translate}}</nz-form-label>
+                           
+                            <div *ngIf="url != null">
+                            <img [src]="url" height="200" width="200" >
+                        </div> 
+                            <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0" type="file"
+                                class="post-file--img" (change)="onFileChange($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-form-label nzFor="categoryImage">{{"HeaderImage" | translate}}</nz-form-label>
+                           
+                            <div *ngIf="headerurl != null">
+                            <img [src]="headerurl" height="200" width="200" >
+                        </div> 
+                            <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0" type="file"
+                                class="post-file--img" (change)="onFileChangeHeaderImg($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="validateForm.invalid"
+                        [nzLoading]="editLoading" (click)="submitForm()">{{"Submit" | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+</main>

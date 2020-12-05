@@ -1,0 +1,33 @@
+@import "../../../../../assets/less/variable.less";
+
+::ng-deep .order-details-section {
+    .ant-steps {
+        margin: 45px auto;
+
+        .ant-steps-item-process,
+        .ant-steps-item-wait {
+            &>.ant-steps-item-container {
+                &>.ant-steps-item-tail::after {
+                    background-color: #cacdd3;
+                }
+            }
+        }
+    }
+
+    .order-card {
+        &.order-card-info {
+            .ant-card-body {
+                min-height: 168px;
+            }
+        }
+
+        .ant-card-head-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+    }
+}
+
+.mr-12{
+    margin-right: 12px;
+}

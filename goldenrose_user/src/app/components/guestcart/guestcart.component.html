@@ -1,0 +1,105 @@
+<app-header #myChild></app-header>
+<div class="cart main-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+                <div class="cart-details">
+                    <div class="cart-title display-flex">
+                        <h4>{{"MyCart"|translate}} ({{cartList.length}} Items)</h4>
+                        <h4 class="text-right">{{"Total"|translate}}: {{totalAmount |number:'1.1-2'}}€</h4>
+                    </div>
+                    <div class="cart-list p-3 b-t">
+                        <div *ngIf="cartList.length == 0">
+                            {{"NoItem"|translate}}
+                        </div>
+                        <div class="row pb-2 mb-2" *ngFor="let cartitem of cartList;let i = index">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
+                                <div class="cart-image" routerLink="/productview/{{cartitem.product_id._id}}">
+                                    <img [src]="url+cartitem.product_id.file[0]?.path" alt=""  (error)="$event.target.src = 'assets/images/notavailable.jpg'">
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="cart-name">
+                                    <h4>{{cartitem.product_id.name}}</h4>
+                                    <div class="qtySelector text-center">
+                                        <i class="fa fa-minus decreaseQty" (click)="decreaseCart(i)"></i>
+                                        <input type="text" class="qtyValue focus" disabled="disabled" value="{{cartitem.quantity}}" />
+                                        <i class="fa fa-plus increaseQty" (click)="increaseCart(i)"
+                                            [ngClass]="{'a_disabled':cartitem.product_id.stock_count[0] < cartitem.quantity+1}"></i>
+                                    </div>
+                                    <p *ngIf="cartitem.quantity > cartitem.product_id.stock_count" style="color: red">
+                                        {{"LessStock"|translate}}</p>
+                                    <p *ngIf="cartitem.product_id.deleted == true || cartitem.product_id.status == false"
+                                        style="color: red">{{"NotAvailable"|translate}}</p>
+                                    <div class="cart-button display-flex">
+                                        <button nz-button nzType="default" class="mr-2"
+                                            (click)="removeCart(cartitem)">{{"Remove"|translate}}</button>
+                                        <button nz-button nzType="default" *ngIf="isloggedin == 'true'"
+                                            (click)="addWish(cartitem)">{{"MoveToWish"|translate}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="cart-amount">
+                                    <h4>{{cartitem.total_price |number:'1.1-2'}}€</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a [routerLink]="['/wishlist']" *ngIf="isloggedin == 'true'" class="cart-wishlist display-flex">
+                    <div class="display-flex"><i class="fa fa-bookmark-o pr-1"></i>
+                        <h4>{{"AddMoreWish"|translate}}</h4>
+                    </div>
+                    <div class="right-cart">
+                        <i class="fa fa-angle-right"></i>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+                <div class="price-details">
+                    <h4>{{"PriceDetail"|translate}}</h4>
+                    <div class="p-3 b-t">
+                        <div class="product-content-list display-flex">
+                            <p class="w-70 pl-1">{{"BagTotal"|translate}} ({{cartList.length}} items)</p>
+                            <p>{{totalAmount |number:'1.1-2'}}€</p>
+                        </div>
+                        <div class="product-content-list display-flex" *ngIf="totalAmount > 0">
+                            <p class="w-70 pl-1">{{"DeliveryCharge"|translate}}</p>
+                            <p *ngIf="delivery_fee != 0">{{delivery_fee}}€</p>
+                            <p *ngIf="delivery_fee == 0">{{"FREE"|translate}}</p>
+                        </div>
+                        <div class="sub-total display-flex">
+                            <h5 class="w-70 pl-1">{{"TotalPayable"|translate}}</h5>
+                            <h5 *ngIf="totalAmount <= 0">{{totalAmount |number:'1.1-2'}}€</h5>
+                            <h5 *ngIf="totalAmount > 0">{{(totalAmount+delivery_fee) |number:'1.1-2'}}€</h5>
+                        </div>
+                        <button type="submit" nz-button nzBlock nzType="primary"
+                            *ngIf="cartList.length > 0 && quantityIssue == false && productNotAvailable == false && isloggedin == 'true'"
+                            routerLink="/checkout">{{"Checkout"|translate}}</button>
+                        <button type="submit"
+                            *ngIf="isloggedin != 'true' && cartList.length > 0 && quantityIssue == false && productNotAvailable == false "
+                            nz-button nzBlock nzType="primary"
+                            (click)="isCheckoutSignIn = true">{{"Checkout"|translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+<!-- Checkout Order -->
+<nz-modal [(nzVisible)]="isCheckoutSignIn" (nzOnCancel)="isCheckoutSignIn = false" (nzOnOk)="isCheckoutSignIn = false"
+    [nzFooter]="null">
+    <div class="checkout-signin my-3">
+        <h4 class="font-weight-bold">{{"NewCustom"|translate}}</h4>
+        <p>{{"NewCustomText"|translate}}</p>
+        <a [routerLink]="['/guest-checkout']" nz-button nzType="primary" nzSize="large"
+            nzBlock>{{ "GuestCheck"|translate }}</a>
+    </div>
+    <div class="checkout-signin">
+        <h4 class="font-weight-bold">{{"ReturnCustomers"|translate}}</h4>
+        <p>{{"ReturnCustomText"|translate}}</p>
+        <a [routerLink]="['/auth/login']" nz-button nzType="primary" nzSize="large" nzBlock>{{"LogCheck"|translate}}</a>
+    </div>
+</nz-modal>

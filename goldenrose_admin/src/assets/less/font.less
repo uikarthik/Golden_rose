@@ -1,0 +1,14 @@
+.font-face(@font-family, @font-name, @font-weight, @font-style) {
+    @font-face {
+        font-family: @font-family;
+        src: url("../font/@{font-name}.ttf") format('truetype');
+        font-weight: @font-weight;
+        font-style: @font-style;
+        font-display: swap;
+    }
+}
+
+.font-face("Spartan", "Spartan-Regular", 400, normal);
+.font-face("Spartan", "Spartan-Medium", 500, normal);
+.font-face("Spartan", "Spartan-SemiBold", 600, normal);
+.font-face("Spartan", "Spartan-Bold", 700, normal);

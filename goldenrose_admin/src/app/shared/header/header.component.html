@@ -1,0 +1,30 @@
+<header>
+    <div class="d-inline-block d-lg-none">
+        <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="open()">
+        </i>
+    </div>
+    <div class="float-right d-flex align-items-center header-right">
+        <a nz-dropdown [nzDropdownMenu]="menu" class="d-flex align-items-center user-info text-body">
+            <nz-avatar [nzSize]="'large'" nzText="{{username[0] | titlecase}}" class="mr-2"></nz-avatar>
+            <div class="mr-2 pr-1 d-none d-sm-block">
+                <span class="avatar-name d-block">{{username}}</span>
+                <span class="small mt-1 d-block">{{email}}</span>
+            </div>
+            <div class="d-none d-sm-block">
+                <i nz-icon nzType="down" nzTheme="outline"></i>
+            </div>
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+                <li routerLink="/settings" nz-menu-item>{{"MyAccount" | translate}}</li>
+                <li nz-menu-divider></li>
+                <li nz-menu-item class="text-danger" (click)="LogOut()">{{"Logout" | translate}}</li>
+            </ul>
+        </nz-dropdown-menu>
+    </div>
+</header>
+<div class="custom-sidenav">
+    <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="left" (nzOnClose)="close()" class="p-0">
+        <app-sidenav></app-sidenav>
+    </nz-drawer>
+</div>

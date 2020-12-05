@@ -1,0 +1,67 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1">Report</h4>
+        <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input-group">
+            <input type="text" nz-input placeholder="Search for report" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+        </ng-template>
+    </div>
+    <nz-card [nzBordered]="true" class="mb-4 card-p-0">
+        <nz-table #recentOrderTable [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Product</th>
+                    <th>Total Reports</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of recentOrderTable.data">
+                    <td>1</td>
+                    <td>
+                        <div class="top-product">
+                            <div class="top-product-img">
+                                <img src="assets/img/product/women-necklace2.jpg" alt="product" draggable="false">
+                            </div>
+                            <div class="product-name">
+                                <div>{{data.productName}}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ data.totalReports }}</td>
+                    <td class="text-center">
+                        <a routerLink="/report/view" nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="eye"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="primary">Enable</button>
+                    </td>
+                </tr>
+                <tr *ngFor="let data of recentOrderTable.data">
+                    <td>2</td>
+                    <td>
+                        <div class="top-product">
+                            <div class="top-product-img">
+                                <img src="assets/img/product/women-necklace.jpg" alt="product" draggable="false">
+                            </div>
+                            <div class="product-name">
+                                <div>{{data.productName}}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ data.totalReports }}</td>
+                    <td class="text-center">
+                        <a routerLink="/report/view" nz-button nzType="default" nzShape="circle">
+                            <i nz-icon nzType="eye"></i>
+                        </a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="primary" nzDanger>Disable</button>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</main>

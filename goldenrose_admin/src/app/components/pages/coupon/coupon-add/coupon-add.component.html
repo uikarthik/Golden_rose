@@ -1,0 +1,61 @@
+<main>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">{{"AddCoupon" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/coupon/list']">{{"CouponList" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"AddCoupon" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="{{'EnterCouponName' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"CouponName" | translate}}</nz-form-label>
+                            <input nzSize="large" type="text" nz-input formControlName="couponName" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="{{'EnterCode' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"CouponCode" | translate}}</nz-form-label>
+                            <input nzSize="large" type="text" nz-input formControlName="couponCode" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control [nzErrorTip]="couponTpl">
+                            <nz-form-label nzFor="categoryName">{{"PerOffer" | translate}}</nz-form-label>
+                            <input nzSize="large" type="number" [(ngModel)]="couponPercentage" (ngModelChange)="max100()" min="1" nz-input formControlName="percentage" />
+                            <ng-template #couponTpl let-control>
+                                <ng-container *ngIf="control.hasError('max')">
+                                   {{"PerValid" | translate}}
+                                     </ng-container
+                                >
+                                <ng-container *ngIf="control.hasError('required')"
+                                    > {{"EnterPer" | translate}}
+                                </ng-container>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item class="d-block">
+                        <nz-form-control nzErrorTip="{{'EnterDays' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"ValidDays" | translate}}</nz-form-label>
+                            <input nzSize="large" type="number" min="1" nz-input formControlName="validitydays" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="{{'EnterDesc' | translate}}">
+                            <nz-form-label nzFor="categoryName">{{"Desc" | translate}}</nz-form-label>
+                            <textarea rows="4" nz-input formControlName="description"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <button nzSize="large" nz-button [nzType]="'primary'" [disabled]="validateForm.invalid" [nzLoading]="editLoading">{{"AddCoupon" | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+</main>

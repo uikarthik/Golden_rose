@@ -1,0 +1,40 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0 flex-grow-1">Report View</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/report']">Report List</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                Report View
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="true" class="mb-4 card-p-0">
+        <nz-table #recentOrderTable [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of recentOrderTable.data">
+                    <td>1</td>
+                    <td>{{ data.date }}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <nz-avatar nzIcon="user" class="mr-2"
+                                nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
+                            </nz-avatar>
+                            <div>{{ data.userName }}</div>
+                        </div>
+                    </td>
+                    <td>{{ data.comment }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</main>

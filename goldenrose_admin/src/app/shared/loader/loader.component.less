@@ -1,0 +1,72 @@
+@import "../../../assets/less/custom.less";
+
+/* ----------------------------------
+Skeleton
+-------------------------------------*/
+.skeleton-post-block {
+    .skeleton-post-header-block {
+        padding: 15px;
+    }
+
+    .skeleton-post-body {
+        height: 260px;
+        .loader();
+    }
+
+    .skeleton-post-footer {
+        padding: 20px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .post-action-item {
+            border-radius: 30px;
+            height: 12px;
+            width: 66px;
+            .loader();
+        }
+    }
+
+    .skeleton-post-header {
+        display: flex;
+        align-items: center;
+
+        .skeleton-post-avatar {
+            width: 49px;
+            min-width: 49px;
+            height: 49px;
+            border-radius: 50%;
+            .loader();
+        }
+
+        .skeleton-post-title {
+            padding-left: 10px;
+
+            .title_shape {
+                height: 12px;
+                border-radius: 30px;
+            }
+
+            .skeleton-title-one {
+                width: 165px;
+                margin-bottom: 8px;
+                .title_shape();
+                .loader();
+            }
+
+            .skeleton-title-two {
+                width: 85px;
+                .title_shape();
+                .loader();
+            }
+        }
+    }
+
+    .skeleton-title-message {
+        .loader();
+        width: 182px;
+        margin-top: 12px;
+        height: 20px;
+        border-radius: 30px;
+    }
+}

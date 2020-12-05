@@ -1,0 +1,89 @@
+@import "../../../assets/less/variable.less";
+
+.aside-nav {
+    min-height: 100vh !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.ant-layout-sider {
+    background: @white-color  !important;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #fff8f9;
+}
+
+::ng-deep .ant-menu-item {
+    &:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-right: 3px solid @primary-color;
+        transform: scaleY(0.0001);
+        opacity: 0;
+        transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
+            opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+        content: "";
+    }
+
+    &.active {
+        color: @primary-color  !important;
+        background-color: #fff8f9;
+
+        &:after {
+            transform: scaleY(1);
+            opacity: 1;
+            transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
+                opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+    }
+}
+
+.logo {
+    min-height: 32px;
+    margin: 16px;
+    display: inline-block;
+
+    img {
+        height: 46px;
+    }
+
+}
+
+.ant-menu-item,
+.ant-menu-submenu-selected {
+    color: @text-color;
+
+    &:hover {
+        color: @text-color  !important;
+    }
+}
+
+/deep/.ant-menu-submenu-title {
+    &:hover {
+        color: @text-color  !important;
+    }
+}
+
+/deep/.ant-menu-submenu-inline>.ant-menu-submenu-title:hover .ant-menu-submenu-arrow {
+    &::after,
+    &::before {
+        background: @text-color;
+        transition: background 0s cubic-bezier(0.645, 0.045, 0.355, 1),
+            transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+            top 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+            -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+}
+
+.ant-menu-item {
+    &:focus {
+        outline: none;
+    }
+}
+
+.ant-layout-sider {
+    background: @white-color  !important;
+}

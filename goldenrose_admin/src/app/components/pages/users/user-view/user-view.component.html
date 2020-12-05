@@ -1,0 +1,130 @@
+<main>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">{{"UserDet" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/user']">{{"Ulist" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"UserDet" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false" class="mb-4">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="2" nzLg="2" nzXl="1">
+                <nz-avatar [nzText]="username[0]" [nzSize]="64" class="h4 text-uppercase bg-primary mb-3"></nz-avatar>
+            </div>
+            <div nz-col nzXs="20" nzSm="16" nzMd="12" nzLg="8" nzXl="11">
+                <nz-descriptions [nzColumn]="1" class="ml-sm-4">
+                    <nz-descriptions-item nzTitle="{{'Uname' | translate}}">{{username}}</nz-descriptions-item>
+                    <!-- <nz-descriptions-item nzTitle="Nick Name">robin</nz-descriptions-item> -->
+                    <nz-descriptions-item nzTitle="{{'Umail' | translate}}">{{email}}</nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="{{'Gender' | translate}}">{{gender | titlecase}}</nz-descriptions-item>
+                    <!-- <nz-descriptions-item nzTitle="Date of Birth">29-05-1998</nz-descriptions-item> -->
+                    <nz-descriptions-item nzTitle="{{'Mob' | translate}}">{{mobile}}</nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="Address">{{address[0]}}</nz-descriptions-item>
+                </nz-descriptions>
+            </div>
+        </div>
+    </nz-card>
+    <h4>{{"DetailView" | translate}}</h4>
+    <nz-card [nzBordered]="false">
+        <nz-tabset [nzAnimated]="false" [nzSelectedIndex]="0">
+            <nz-tab nzTitle="Order History">
+                <nz-table #currentOrderTable [nzData]="orderHistory">
+                    <thead>
+                        <tr>
+                            <th>{{"OrderId" | translate}}</th>
+                            <th>{{"Date" | translate}}</th>
+                            <th>{{"Amount" | translate}}</th>
+                            <th>{{"Payment" | translate}}</th>
+                            <th>{{"Status" | translate}}</th>
+                            <th class="text-center">{{"Action" | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of currentOrderTable.data">
+                            <td class="text-info">{{ data.tx_id }}</td>
+                            <td>{{ data.createdAt }}</td>
+                            
+                            <td>€{{ data.amount }}</td>
+                            <td>{{data.paid_through}}</td>
+                            <td>
+                                <nz-tag [nzColor]="'blue'">{{ data.order_status }}</nz-tag>
+                            </td>
+                            <td class="text-center">
+                                <a routerLink="/details" nz-button nzType="default" nzShape="circle">
+                                    <i nz-icon nzType="eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-tab>
+            
+            <nz-tab nzTitle="Coupon">
+                <nz-table #couponTable [nzData]="couponData">
+                    <thead>
+                        <tr>
+                            <th>{{"SNO" | translate}}</th>
+                            <th>{{"CouponName" | translate}}</th>
+                            <th>{{"CouponCode" | translate}}</th>
+                            <th>{{"Desc" | translate}}</th>
+                            <th>{{"Percentage" | translate}}</th>
+                            <th>{{"ExDate" | translate}}</th>
+                            <th>{{"Status" | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of couponTable.data;let i = index">
+                            <td>{{10*couponTable.nzPageIndex+( i + 1) - 10}}</td>
+                            <td>{{data.title}}</td>
+                            <td>{{ data.couponcode }}</td>
+                            <td>{{data.description}}</td>
+                            <td>
+                               {{data.percentage}}
+                            </td>
+                            <td>{{data.validitydays | date}}</td>
+                            <td>
+                                <nz-tag [nzColor]="'green'" *ngIf="data.status == true">{{"Active" | translate}}</nz-tag>
+                                <nz-tag [nzColor]="'green'" *ngIf="data.status == false">{{"Expired" | translate}}</nz-tag>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-tab>
+            <nz-tab nzTitle="Card">
+                <nz-table #cardTable [nzData]="cardData">
+                    <thead>
+                        <tr>
+                            <th>{{"SNO" | translate}}</th>
+                            <th>{{"CdName" | translate}}</th>
+                            <th>{{"CdNumber" | translate}}</th>
+                            <th>{{"ExDate" | translate}}</th>
+                            <th>{{"Country" | translate}}</th>
+                            <th>{{"Status" | translate}}</th>
+                            <th>{{"Adate" | translate}}</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of cardTable.data;let i = index">
+                            <td>{{10*cardTable.nzPageIndex+( i + 1) - 10}}</td>
+                            <td>{{data.brand}}</td>
+                            <td>***********{{data.number}}</td>
+                            <td>{{ data.month }} / {{data.year}}</td>
+                            <td>{{data.country}}</td>
+                            <td>
+                                <nz-tag [nzColor]="'green'" *ngIf="data.status == true">{{"Active" | translate}}</nz-tag>
+                                <nz-tag [nzColor]="'green'" *ngIf="data.status == false">{{"Expired" | translate}}</nz-tag>
+                            </td>
+                            <td>{{data.createdAt | date}}</td>
+                            
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+</main>

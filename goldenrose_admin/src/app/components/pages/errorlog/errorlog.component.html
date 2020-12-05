@@ -1,0 +1,39 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0">{{"ErrList" | translate}}</h4>
+        <div class="d-flex align-items-center">
+            <button nzSize="small" nzType="primary" nz-popconfirm nzPopconfirmTitle="Do you want to delete all logs ?"
+                nzOkText="Yes" nzCancelText="No" (nzOnConfirm)="DeleteAllLog()" title="Accept!" (nzOnCancel)="cancel()"
+                nzPopconfirmPlacement="bottom" nz-button>
+                {{"DeleteList" | translate}}
+            </button>
+        </div>
+    </div>
+    <div class="table-block">
+        <nz-table #basicTable [nzData]="listOfData" nzShowSizeChanger nzPageSize="10"
+            [nzPageSizeOptions]="[10,20,30,40,50]">
+            <thead>
+                <tr>
+                    <th>{{"DateTime" | translate}}</th>
+                    <th>{{"Error" | translate}}</th>
+                    <th>{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data ; let i = index">
+                    <td>{{data.id| date: 'medium'}}</td>
+                    <td>
+                        <div class="error-log">
+                            {{data.data}}
+                        </div>
+                    </td>
+                    <td>
+                        <button nz-button nzType="default" nzShape="circle" (click)="DeleteLog(data.id)">
+                            <i nz-icon nzType="delete"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</main>

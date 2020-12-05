@@ -1,0 +1,53 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0">{{"AddProduct" | translate}}</h4>
+        <button nzSize="large" nz-button [nzType]="'primary'" 
+       ><a [download]="myFileName" [href]="fileUrl">Download Sample</a></button>
+        
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form class="login-form">
+                    <nz-form-item>
+                        <nz-form-control >
+                            <nz-form-label nzFor="categoryName">{{"Fileselect" | translate}}</nz-form-label>
+                            <input nzSize="large" type="file" nz-input style="border: none !important;"
+                            (change)="readResume($event)" />
+                                
+                        </nz-form-control>
+                    </nz-form-item>
+                  
+                    <button nzSize="large" nz-button [nzType]="'primary'" 
+                        (click)="submitForm()">{{"Submit" | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+
+    <div class="d-flex pt-5 flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0">Update size, price & quantity</h4>
+        <button nzSize="large" nz-button [nzType]="'primary'" 
+       ><a [download]="updateFileName" [href]="updatefileUrl">Download Sample</a></button>
+        
+    </div>
+    <nz-card [nzBordered]="false">
+        <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6">
+                <form nz-form class="login-form">
+                    <nz-form-item>
+                        <nz-form-control >
+                            <nz-form-label nzFor="categoryName">{{"Fileselect" | translate}}</nz-form-label>
+                            <input nzSize="large" type="file" nz-input style="border: none !important;"
+                            (change)="updateProduct($event)" />
+                                
+                        </nz-form-control>
+                    </nz-form-item>
+                  
+                    <button nzSize="large" nz-button [nzType]="'primary'" 
+                        (click)="updateForm()">{{"Submit" | translate}}</button>
+                </form>
+            </div>
+        </div>
+    </nz-card>
+</main>

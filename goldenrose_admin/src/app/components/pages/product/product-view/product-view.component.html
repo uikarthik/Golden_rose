@@ -1,0 +1,145 @@
+<main>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <h4 class="mb-sm-0">{{"PD" | translate}}</h4>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/product']">{{"PL" | translate}}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                {{"Details" | translate}}
+            </nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <nz-card [nzBordered]="false" class="mb-4">
+        <div nz-row [nzGutter]="32">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="8">
+                <div class="d-flex">
+                    <div class="product-thumbnail-list">
+                        <div class="thumbnail-item" *ngFor="let data of imgThumbnail1">
+                            <img [src]="url+data.path" alt="product-thumbnail" draggable="false"
+                                (mouseover)='over(url+data.path)' (mouseout)='out(url+data.path)'>
+                        </div>
+                      
+                    </div>
+                    <div class="product-img mb-4 mb-md-0">
+                        <img src="{{ popUpImg }}" alt="product-img" draggable="false" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                <div class="d-flex align-items-center">
+                    <h4 class="mr-3 mb-0">{{name}}</h4>
+                    <a routerLink="/product/edit/{{productid}}" nz-button nzType="default" nzShape="circle">
+                        <i nz-icon nzType="edit"></i>
+                    </a>
+                </div>
+                <nz-rate [ngModel]="rating" nzAllowHalf nzDisabled></nz-rate>
+                <div class="product-code mt-3">
+                    <ul class="list-inline">
+                        <li class="first">{{"PID" | translate}}</li>
+                        <li class="last">{{product_id}}</li>
+                    </ul>
+                </div>
+                <div class="product-code">
+                    <!-- <ul class="list-inline">
+                        <li class="first">{{"Avail" | translate}}</li>
+                        <li class="last" *ngIf="stock_available == true">{{"Istock" | translate}}</li>
+                        <li class="last" *ngIf="stock_available == false">{{"Ostock" | translate}}</li>
+                    </ul> -->
+                </div>
+                <nz-divider></nz-divider>
+                <div [innerHTML]="description"></div>
+                <!-- <h3 class="font-weight-bold mb-3">€{{price[0]}}</h3> -->
+                <!-- <div class="product-style-available">
+                    <div class="product-style-title">
+                        Color
+                    </div>
+                    <div class="product-style-value">
+                        <nz-tag [nzColor]="'#f50'"></nz-tag>
+                        <nz-tag [nzColor]="'#2db7f5'"></nz-tag>
+                        <nz-tag [nzColor]="'#87d068'"></nz-tag>
+                        <nz-tag [nzColor]="'#108ee9'"></nz-tag>
+                    </div>
+                </div> -->
+                 <div class="product-style-title" *ngIf="size.length > 0">
+                   <h5 class="font-weight-bold mb-3">{{"SndP" |  translate}}</h5> 
+                </div>
+                <div class="product-style-available" *ngIf="size.length > 0">
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col class="gutter-row" nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="8">
+                            <div class="product-style-value size-value" *ngFor="let sizes of size">
+                                <p>{{sizes}}:</p>
+                            </div>
+                        </div>
+                        <div nz-col class="gutter-row" nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="8">
+                            <div class="product-style-value size-value" *ngFor="let pri of price">
+                                <p>€{{pri}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </nz-card>
+    <nz-card [nzBordered]="false" class="mb-4">
+        <nz-tabset [nzAnimated]="false" [nzSelectedIndex]="0">
+            <nz-tab nzTitle="Description">
+                <div nz-row [nzGutter]="32">
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="6" nzXl="5">
+                        <div class="product-description-list">
+                            <ul class="list-inline mb-0">
+                                <li><span class="text-left">{{"Gender" | translate}}:</span><span class="text-right">{{gender}}</span></li>
+                                <!-- <li><span class="text-left">Waistline:</span><span class="text-right">Natural</span>
+                                </li>
+                                <li><span class="text-left">Decoration:</span><span class="text-right">Beading</span>
+                                </li>
+                                <li><span class="text-left">Pattern Type: </span><span class="text-right">Solid</span>
+                                </li>
+                                <li><span class="text-left">Brand Name:</span><span class="text-right">1023</span></li>
+                                <li><span class="text-left">Style:</span><span class="text-right">Formal</span></li>
+                                <li><span class="text-left">Fabric Type:</span><span class="text-right">Jersey</span>
+                                </li>
+                                <li><span class="text-left">Material:</span><span class="text-right">Polyester</span>
+                                </li>
+                                <li><span class="text-left">Dresses Length:</span><span class="text-right">Above Knee,
+                                        Mini</span></li>
+                                <li><span class="text-left">Silhouette:</span><span class="text-right">A-Line</span>
+                                </li>
+                                <li><span class="text-left">Color Style:</span><span class="text-right">Natural
+                                        Color</span></li>
+                                <li><span class="text-left">Model Number:</span><span class="text-right">59</span></li> -->
+                                <!-- <li><span class="text-left">Gender:</span><span class="text-right">{{gender}}</span></li> -->
+                            </ul>
+                        </div>
+                        <nz-divider nzType="vertical"></nz-divider>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="10">
+                      <div [innerHTML]="description"></div>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="Reviews">
+                <nz-table #basicTable [nzData]="resultdata">
+                    <thead>
+                        <tr>
+                            <th>{{"SNO" | translate}}</th>
+                             <th>{{"Rv" | translate}}</th>
+                            <th>{{"Rt" | translate}}</th>
+                          </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data;let i= index">
+                            <td>{{10*basicTable.nzPageIndex+( i + 1) - 10}}</td>
+                           
+                            <td>{{ data.review }}</td>
+                            <td>
+                               {{data.rating}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-tab>
+        </nz-tabset>
+    </nz-card>
+</main>

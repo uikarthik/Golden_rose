@@ -1,0 +1,162 @@
+@import "../../../../assets/less/variable.less";
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    margin-left: auto;
+    text-align: center;
+    border-radius: 100%;
+    font-size: 22px;
+
+    &.user-bg {
+        color: #8380ff;
+        background: rgba(#8380ff, 15%);
+    }
+
+    &.merchant-bg {
+        color: #40d789;
+        background: rgba(#40d789, 15%);
+    }
+
+    &.coin-bg {
+        color: #fec43c;
+        background: rgba(#fec43c, 15%);
+    }
+
+    &.kyc-bg {
+        color: #fd996f;
+        background: rgba(#fd996f, 15%);
+    }
+}
+
+::ng-deep .card-block {
+    .ant-statistic-title {
+        color: rgba(@text-color, 80%);
+    }
+
+    .text-black-50 {
+        color: rgba(@text-color, 80%);
+    }
+
+    .ant-statistic-content {
+        margin-bottom: 12px;
+        font-weight: 600;
+    }
+
+    .ant-card-head-title {
+        font-weight: 600;
+    }
+
+    .ant-btn-icon-only>* {
+        font-size: 22px;
+    }
+}
+
+.dash-chart {
+    canvas {
+        height: 280px !important;
+    }
+}
+
+.coin-box {
+    width: 12px;
+    height: 12px;
+    border-radius: 100px;
+    float: left;
+    margin-right: 8px;
+
+    &.btc {
+        background: #ffa1b5;
+    }
+
+    &.ltc {
+        background: #86c7f3;
+    }
+
+    &.eth {
+        background: #ffe29a;
+    }
+}
+
+.coinlist-price {
+    li {
+        display: flex;
+        align-items: center;
+        padding-bottom: 13px;
+
+        &:last-child {
+            padding-bottom: 0px;
+        }
+
+        h6 {
+            float: left;
+            margin: 0px;
+        }
+
+        .coin-name {
+            min-width: 50%;
+        }
+    }
+}
+
+
+::ng-deep .top-items {
+    .ant-tabs-bar {
+        margin-bottom: 0px;
+    }
+
+    .ant-tabs-nav {
+        padding: 6px 0px 6px 24px;
+    }
+}
+
+// Charts
+#chart {
+    max-width: 380px;
+    margin: 0px auto;
+    padding: 0;
+}
+
+::ng-deep .revenue-card {
+    padding: 20px 0;
+
+    .ant-statistic-title {
+        margin-bottom: 8px;
+    }
+}
+
+.sales-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 30px;
+    margin-right: 8px;
+    display: inline-block;
+    vertical-align: 3px;
+}
+
+.statistics-list {
+    margin-top: 10px;
+
+    .static-title {
+        display: flex;
+        align-items: baseline;
+
+        .static-shape {
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+            background: gray;
+        }
+    }
+
+    p {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &:last-child {
+            margin-bottom: 0px;
+        }
+    }
+}
